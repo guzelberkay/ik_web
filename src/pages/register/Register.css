@@ -1,0 +1,129 @@
+/* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(17, 63, 79);
+  /*background: url('../../img/background-image.jpg') !important; */
+  background-size: cover !important; 
+  background-repeat: no-repeat !important;
+}
+
+.wrapper {
+  position: relative;
+  min-width: 500px;
+  max-width: 670px;
+  width: 100%;
+  border-radius: 12px;
+  padding: 40px 30px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  opacity: 0.97;
+  box-shadow: 3px 3px 21px 2px rgba(0, 0, 0, 0.7);
+}
+
+.form header {
+  font-size: 30px;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.form.signup header {
+  color: #333;
+  opacity: 0.6;
+}
+
+.wrapper.active .form.signup header {
+  opacity: 1;
+}
+
+.wrapper.active .login header {
+  opacity: 0.6;
+}
+
+.wrapper form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.input-group {
+  display: flex;
+  gap: 20px;
+}
+
+.input-group input {
+  flex: 1;
+}
+
+form input {
+  height: 50px;
+  outline: none;
+  border: none;
+  padding: 0 15px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #fff;
+}
+
+form .checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox input[type="checkbox"] {
+  height: 16px;
+  width: 16px;
+  accent-color: #333;
+  cursor: pointer;
+}
+
+form .checkbox label {
+  cursor: pointer;
+  color: #333;
+}
+
+form a {
+  color: #333;
+  text-decoration: none;
+}
+
+form a:hover {
+  text-decoration: underline;
+}
+
+.submit-button {
+  margin-top: 15px;
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  background: #2F519A;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+}
