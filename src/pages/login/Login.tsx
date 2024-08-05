@@ -18,7 +18,7 @@ function Login() {
   const login = () => {
     dispatch(fetchLogin({ email, password })).then(data => {
       if (data.payload.code === 200) {
-        navigate('/');
+        navigate('/pendingusers');
       }
     });
   };
