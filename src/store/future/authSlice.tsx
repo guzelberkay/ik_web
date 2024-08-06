@@ -5,39 +5,41 @@ import { ILogin } from "../../components/models/ILogin";
 import { IResponse } from "../../components/models/IResponse";
 import swal from 'sweetalert';
 import Rest from '../../config/RestApis';
+import { jwtDecode } from 'jwt-decode';
 
 const initialAuthState = {
     token: '',
-    user: [],
+    user: {
+        role: ''
+    },
     isLoadingLogin: false,
     isLoadingRegister: false,
     isAuth: false
 }
 
-/**
- * @param {firstName, lastName, password, rePassword, email, phone, companyName, subscriptionPlan, employeeLimitLevel} payload
- */
+interface DecodedToken {
+    userId: number;
+    role: string;
+    iss: string;
+    iat: number;
+    exp: number;
+}
+
+// JWT token'ı decode eden yardımcı fonksiyon
+export const decodeToken = (token: string): DecodedToken => {
+    return jwtDecode<DecodedToken>(token);
+}
+
 export const fetchRegister = createAsyncThunk(
     'auth/fetchRegister',
     async (payload: IRegister) => {
         try {
-            console.log("Gönderilen Register Verisi: ", payload);
             const response = await fetch(Rest.authService + '/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    'firstName': payload.firstName,
-                    'lastName': payload.lastName,
-                    'phone': payload.phone,
-                    'email': payload.email,
-                    'companyName': payload.companyName,
-                    'employeeLimitLevel': payload.employeeLimitLevel,
-                    'subscriptionPlan': payload.subscriptionPlan,
-                    'password': payload.password,
-                    'rePassword': payload.rePassword
-                })
+                body: JSON.stringify(payload)
             });
 
             if (!response.ok) {
@@ -71,11 +73,19 @@ export const fetchLogin = createAsyncThunk(
                     'email': payload.email,
                     'password': payload.password
                 })
-            }).then(data => data.json())
-            return response;
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            console.log("Gelen JSON:", data); // Yanıtı konsola yazdır
+            return data;
 
         } catch (err) {
             console.log('hata...: ', err);
+            throw err;
         }
     }
 );
@@ -111,24 +121,25 @@ const authSlice = createSlice({
         });
         build.addCase(fetchLogin.pending, (state) => {
             state.isLoadingLogin = true;
-        })
+        });
         build.addCase(fetchLogin.fulfilled, (state, action: PayloadAction<IResponse>) => {
             state.isLoadingLogin = false;
             if (action.payload.code === 200) {
                 state.token = action.payload.data;
                 state.isAuth = true;
-                localStorage.setItem('token', action.payload.data);
+
+                const decodedToken = decodeToken(state.token);
+                state.user = { ...state.user, role: decodedToken.role };
             } else {
                 swal('Hata!', action.payload.message, 'error');
             }
         });
         build.addCase(fetchLogin.rejected, (state, action) => {
-            console.log(action.payload);
+            state.isLoadingLogin = false;
+            swal('Hata!', action.error.message || 'Giriş işlemi sırasında bir hata oluştu!', 'error');
         });
     }
 });
 
-export const {
-    setToken, clearToken
-} = authSlice.actions;
+export const { setToken, clearToken } = authSlice.actions;
 export default authSlice.reducer;
