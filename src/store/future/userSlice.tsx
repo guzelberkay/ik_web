@@ -23,12 +23,23 @@ export interface ISearchUser {
     status: string;
 }
 
+export interface IPendingUsers {
+    id: number,
+    firstName: string,
+    lastName: string,
+    email: string,
+    userStatus: string,
+    companyId: number,
+    companyName: string,
+    numberOfEmployee: number;
+}
+
 interface IUserState {
     userProfile: IUserProfile | null,
     isLoading: boolean,
     userSearchList: ISearchUser[],
     searchEmail: string,
-    pendingUsers: ISearchUser[];
+    pendingUsers: IPendingUsers[];
 }
 const initialUserState: IUserState = {
     userProfile: null,
@@ -41,12 +52,23 @@ const initialUserState: IUserState = {
 // Fetch Pending Users
 export const fetchGetPendingUsers = createAsyncThunk(
     'user/fetchGetPendingUsers',
-    async (token: string) => {
-        const result = await fetch(Rest.userService + '/get-pending-users?token=' + token)
-            .then(data => data.json());
-        return result;
+    async (token) => {
+      const response = await fetch(`${Rest.userService}/get-pending-users`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const result = await response.json();
+      return result;
     }
-);
+  );
 
 //Update Pending Users
 interface IUpdateUserStatusPayload {
