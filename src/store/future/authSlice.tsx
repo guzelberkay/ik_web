@@ -63,30 +63,21 @@ export const fetchRegister = createAsyncThunk(
 export const fetchLogin = createAsyncThunk(
     'auth/fetchLogin',
     async (payload: ILogin) => {
+
         try {
             const response = await fetch(Rest.authService + '/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    'email': payload.email,
-                    'password': payload.password
-                })
-            });
+                body: JSON.stringify(payload)
+            }).then(data => data.json())
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
-            console.log("Gelen JSON:", data); // Yanıtı konsola yazdır
-            return data;
-
-        } catch (err) {
-            console.log('hata...: ', err);
-            throw err;
+            return response;
+        } catch (error) {
+            console.error('Error in fetchLogin:', error);
         }
+    
     }
 );
 
@@ -119,6 +110,9 @@ const authSlice = createSlice({
             state.isLoadingRegister = false;
             swal("Hata", action.error.message || "Kayıt işlemi sırasında bir hata oluştu!", "error");
         });
+
+
+
         build.addCase(fetchLogin.pending, (state) => {
             state.isLoadingLogin = true;
         });
@@ -127,6 +121,8 @@ const authSlice = createSlice({
             if (action.payload.code === 200) {
                 state.token = action.payload.data;
                 state.isAuth = true;
+
+                console.log('Token.....:', state.token);
 
                 const decodedToken = decodeToken(state.token);
                 state.user = { ...state.user, role: decodedToken.role };

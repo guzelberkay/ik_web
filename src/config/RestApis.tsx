@@ -4,6 +4,7 @@ const server = server_local;
 const apis = {
     authService: server+'/user',
     userService: server+'/user',
+    adminService: server+'/admin',
 }
 
 export default apis;

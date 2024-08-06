@@ -11,17 +11,21 @@ import './PendingUsers.css';
 
 const PendingUsers = () => {
   const dispatch: AppDispatch = useDispatch();
-  const token = useAppSelector(state => state.auth.token) || localStorage.getItem('token') || '';
-  const pendingUsers = useSelector((state: RootState) => state.user.pendingUsers);
+  const token = useAppSelector(state => state.auth.token);
+  const pendingUsers = useAppSelector(state => state.user.pendingUsers);
 
   useEffect(() => {
     if (token) {
-      dispatch(fetchGetPendingUsers());
+      console.log('Fetching pending users with token:', token);
+      dispatch(fetchGetPendingUsers(token));
+    } else {
+      console.log('No token available');
     }
   }, [dispatch, token]);
 
-  // Log pending users to console for debugging
-  console.log("Pending Users:", pendingUsers);
+  useEffect(() => {
+    console.log("Pending Users Updated:", pendingUsers);
+  }, [pendingUsers]);
 
   const handleApprove = (userId: number) => {
     dispatch(updatePendingUserStatus({ userId, status: 'approved', token }))

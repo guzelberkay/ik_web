@@ -6,9 +6,13 @@ import PendingUsers from "./pages/admin/PendingUsers"
 import VisitorPage from "./pages/visitorPage/VisitorPage";
 import UserStories from "./pages/userStories/UserStories";
 import Resources from "./pages/resources/Resources";
+import { useAppSelector } from "./store";
+
+const token = useAppSelector(state => state.auth.token);
+
 
 function RouterPage() {
-
+  
   return (
     <BrowserRouter>
       <Routes>
