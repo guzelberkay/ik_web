@@ -134,6 +134,7 @@ function Register() {
             onClick={register}
             className="submit-button"
           />
+          
         </form>
       </div>
     </section>

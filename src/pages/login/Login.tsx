@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import './Login.css';
-import { useDispatch } from 'react-redux';
-import { fetchLogin } from '../../store/future/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { decodeToken, fetchLogin } from '../../store/future/authSlice';
 import { AppDispatch } from '../../store';
 import { useNavigate } from 'react-router-dom';
 import logo from "../../img/logo.png";
 import eyeIcon from "../../img/eye-icon.png";
 import eyeOffIcon from "../../img/eye-off-icon.png";
+import swal from 'sweetalert';
 
 function Login() {
   const dispatch: AppDispatch = useDispatch();
@@ -16,12 +17,23 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const login = () => {
-    dispatch(fetchLogin({ email, password })).then(data => {
-      if (data.payload.code === 200) {
-        navigate('/pendingusers');
+    dispatch(fetchLogin({ email, password })).then((data: any) => {
+      if (data.payload && data.payload.code === 200) {
+        const token = data.payload.data;
+        const decodedToken = decodeToken(token);
+        const role = decodedToken.role;
+
+        if (role === 'ADMIN') {
+          navigate('/pendingusers');
+        } else {
+          navigate('/dashboard');
+        }
+      } else {
+        swal("Hata", data.error.message || "Giriş işlemi başarısız oldu!", "error");
       }
     });
   };
+  
 
   return (
     <section className="login-wrapper">
@@ -50,8 +62,8 @@ function Login() {
           </div>
           <button type="button" onClick={login}>Giriş Yap</button>
           <div className="links">
-            <a href="#" className='forgotPassword'>Parolamı Unuttum</a>
-            <a href="#">Kurumsal Giriş</a>
+            <a className="forgotPassword" onClick={() => alert("Parolamı Unuttum fonksiyonu eklenmedi.")}>Parolamı Unuttum</a>
+            <a href="register">Kayıt Ol</a>
           </div>
         </form>
       </div>
