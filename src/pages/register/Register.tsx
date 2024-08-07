@@ -5,6 +5,7 @@ import { fetchRegister } from '../../store/future/authSlice';
 import { AppDispatch } from '../../store';
 import swal from 'sweetalert';
 import { SubscriptionPlan, EmployeeLimitLevel } from '../../components/models/enum';
+import NavBar from '../../components/molecules/NavBar';
 
 function Register() {
   const dispatch: AppDispatch = useDispatch();
@@ -54,9 +55,14 @@ function Register() {
   };
 
   return (
+    <>
+    <div className="row">
+      <NavBar />
+    </div>
+    
     <section className={isActive ? "wrapper active" : "wrapper"}>
       <div className="form signup">
-        <header onClick={() => setIsActive(false)}>Register</header>
+        <header onClick={() => setIsActive(false)}>Kayıt olun</header>
         <form action="#">
           <div className="input-group">
             <input
@@ -138,6 +144,7 @@ function Register() {
         </form>
       </div>
     </section>
+    </>
   );
 }
 
