@@ -36,8 +36,8 @@ function Login() {
   
 
   return (
-    <section className="login-wrapper">
-      <div className="login-container">
+    <section className="login-wrapper" style={{minWidth: '200vh'}} >
+      <div className="login-container" >
         <img src={logo} alt="Logo" className="logo" />
         <form action="#">
           <label>E-posta Adresi</label>

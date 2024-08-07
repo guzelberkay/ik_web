@@ -1,8 +1,13 @@
 import React from 'react'
+import NavBar from '../../components/molecules/NavBar'
 
 function Resources() {
   return (
-    <div>Resources</div>
+    <>
+      <div className="row">
+        <NavBar />
+      </div>
+    </>
   )
 }
 
