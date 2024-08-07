@@ -11,8 +11,9 @@ import './PendingUsers.css';
 
 const PendingUsers = () => {
   const dispatch: AppDispatch = useDispatch();
-  const token = useAppSelector(state => state.auth.token);
   const pendingUsers = useAppSelector(state => state.user.pendingUsers);
+  const token = useAppSelector(state => state.auth.token) || localStorage.getItem('token') || '';
+ 
 
   useEffect(() => {
     if (token) {

@@ -122,7 +122,7 @@ const authSlice = createSlice({
                 state.token = action.payload.data;
                 state.isAuth = true;
 
-                console.log('Token.....:', state.token);
+                localStorage.setItem('token', state.token);
 
                 const decodedToken = decodeToken(state.token);
                 state.user = { ...state.user, role: decodedToken.role };
