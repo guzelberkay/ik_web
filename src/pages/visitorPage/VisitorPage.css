@@ -1,0 +1,21 @@
+body{
+    align-items: flex-start;
+}
+.btn-outline-info:hover{
+    background-color: rgb(17, 63, 79);
+    color: white !important;
+}
+.carousel-control-prev,
+.carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.carousel-control-prev {
+    left: 0;
+}
+
+.carousel-control-next {
+    right: 0;
+}

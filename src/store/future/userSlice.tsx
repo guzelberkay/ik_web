@@ -52,12 +52,12 @@ const initialUserState: IUserState = {
 // Fetch Pending Users
 export const fetchGetPendingUsers = createAsyncThunk(
     'user/fetchGetPendingUsers',
-    async (token) => {
-      const response = await fetch(`${Rest.userService}/get-pending-users`, {
+    async (token:string) => {
+      const response = await fetch(`${Rest.adminService}/get-pending-user`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         }
       });
   
@@ -66,6 +66,7 @@ export const fetchGetPendingUsers = createAsyncThunk(
       }
   
       const result = await response.json();
+      
       return result;
     }
   );
@@ -179,8 +180,10 @@ const userSlice = createSlice({
             state.userSearchList = action.payload.data;
         });
         build.addCase(fetchGetPendingUsers.fulfilled, (state, action: PayloadAction<IResponse>) => {
+            
             if (action.payload.code === 200) {
-                state.userSearchList = action.payload.data;
+                
+                state.pendingUsers = action.payload.data;
             }
         });
         build.addCase(updatePendingUserStatus.fulfilled, (state, action: PayloadAction<IResponse>) => {
