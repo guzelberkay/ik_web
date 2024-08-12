@@ -24,7 +24,7 @@ export interface ISearchUser {
 }
 
 export interface IPendingUsers {
-    id: number,
+    userId: number,
     firstName: string,
     lastName: string,
     email: string,
@@ -74,23 +74,28 @@ export const fetchGetPendingUsers = createAsyncThunk(
 //Update Pending Users
 interface IUpdateUserStatusPayload {
     userId: number;
-    status: string;
     token: string;
+    companyId: number;
+    email: string;
 }
 export const updatePendingUserStatus = createAsyncThunk(
     'user/updatePendingUserStatus',
     async (payload: IUpdateUserStatusPayload) => {
-        const res = await fetch(Rest.userService + '/update-user-status', {
+        console.log('Approving user payload:', payload.userId, payload.email, payload.companyId ,payload.token);
+        const res = await fetch(Rest.adminService + '/send-activation-mail', {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${payload.token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 userId: payload.userId,
-                status: payload.status,
+                email: payload.email,
+                companyId: payload.companyId,
                 token: payload.token
             })
         }).then(data => data.json());
+        console.log('Approving user response:',res);
         return res;
     }
 );

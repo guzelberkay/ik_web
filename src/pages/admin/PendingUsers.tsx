@@ -28,8 +28,9 @@ const PendingUsers = () => {
     console.log("Pending Users Updated:", pendingUsers);
   }, [pendingUsers]);
 
-  const handleApprove = (userId: number) => {
-    dispatch(updatePendingUserStatus({ userId, status: 'approved', token }))
+  const handleApprove = (userId: number, email: string, companyId: number) => {
+    
+    dispatch(updatePendingUserStatus({ userId, email, companyId, token }))
       .then(() => {
         toast.success('User approved successfully!');
       })
@@ -38,15 +39,7 @@ const PendingUsers = () => {
       });
   };
 
-  const handleReject = (userId: number) => {
-    dispatch(updatePendingUserStatus({ userId, status: 'rejected', token }))
-      .then(() => {
-        toast.success('User rejected successfully!');
-      })
-      .catch(() => {
-        toast.error('Failed to reject user.');
-      });
-  };
+
 
   return (
     <div className="container">
@@ -67,7 +60,7 @@ const PendingUsers = () => {
         </thead>
         <tbody>
           {pendingUsers.map((user: IPendingUsers) => (
-            <tr key={user.id}>
+            <tr key={user.userId}>
               <td>{user.firstName}</td>
               <td>{user.lastName}</td>
               <td>{user.email}</td>
@@ -76,12 +69,10 @@ const PendingUsers = () => {
               <td>{user.companyName}</td>
               <td>{user.numberOfEmployee}</td>
               <td>
-                <button className="btn btn-success btn-sm mx-1" onClick={() => handleApprove(user.id)}>
+                <button className="btn btn-success btn-sm mx-1" onClick={() => handleApprove(user.userId, user.email, user.companyId)}>
                   <FontAwesomeIcon icon={faCheck} />
                 </button>
-                <button className="btn btn-danger btn-sm mx-1" onClick={() => handleReject(user.id)}>
-                  <FontAwesomeIcon icon={faTimes} />
-                </button>
+                
               </td>
             </tr>
           ))}
