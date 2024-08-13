@@ -6,6 +6,7 @@ import PendingUsers from "./pages/admin/PendingUsers"
 import VisitorPage from "./pages/visitorPage/VisitorPage";
 import UserStories from "./pages/userStories/UserStories";
 import Resources from "./pages/resources/Resources";
+import EmployeeList from "./pages/employeeList/EmployeeList";
 import { AppDispatch, useAppSelector } from "./store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -54,6 +55,7 @@ function RouterPage() {
         <Route path="/forgetmypassword" element={<ForgetMyPassword />} />
         <Route path="/changeMyPassword" element={<ChangeMyPassword />} />
         <Route path="/createleavebycompanymanager" element={<CreateLeaveByCompanyManager />} />
+        <Route path="/employeelist" element={isLogin ? <EmployeeList /> : <Login />} />
       </Routes>
     </BrowserRouter>
   );
