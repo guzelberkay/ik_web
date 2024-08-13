@@ -11,3 +11,10 @@ export enum EmployeeLimitLevel {
     LEVEL_3 = "EMPLOYEE_LIMIT_LEVEL_3",
     LEVEL_4 = "EMPLOYEE_LIMIT_LEVEL_4"
 }
+
+export enum LeaveType {
+    ANNUAL = "ANNUAL",
+    SICK = "SICK",
+    MATERNITY = "MATERNITY",
+    OTHER = "OTHER"
+}

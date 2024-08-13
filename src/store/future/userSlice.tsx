@@ -24,7 +24,7 @@ export interface ISearchUser {
 }
 
 export interface IPendingUsers {
-    id: number,
+    userId: number,
     firstName: string,
     lastName: string,
     email: string,
@@ -76,23 +76,28 @@ export const fetchGetPendingUsers = createAsyncThunk(
 //Update Pending Users
 interface IUpdateUserStatusPayload {
     userId: number;
-    status: string;
     token: string;
+    companyId: number;
+    email: string;
 }
 export const updatePendingUserStatus = createAsyncThunk(
     'user/updatePendingUserStatus',
     async (payload: IUpdateUserStatusPayload) => {
-        const res = await fetch(Rest.userService + '/update-user-status', {
+        console.log('Approving user payload:', payload.userId, payload.email, payload.companyId ,payload.token);
+        const res = await fetch(Rest.adminService + '/send-activation-mail', {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${payload.token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 userId: payload.userId,
-                status: payload.status,
+                email: payload.email,
+                companyId: payload.companyId,
                 token: payload.token
             })
         }).then(data => data.json());
+        console.log('Approving user response:',res);
         return res;
     }
 );
@@ -154,7 +159,54 @@ export const fetchSearchUserList = createAsyncThunk(
         }).then(data => data.json());
         return res;
     }
+
 ) 
+
+
+    interface IFetchForgotPasswordPayload {
+        email: string
+    }
+
+    export const fetchForgotPassword = createAsyncThunk(
+        'user/fetchForgotPassword',
+        async (payload: IFetchForgotPasswordPayload) => {
+            const res = await fetch(Rest.userService + '/forgot-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: payload.email
+                })
+            }).then(data => data.json());
+            return res;
+        }
+    )
+
+    interface IResetPassword {
+        code: string
+        password: string
+    }
+    export const fetchResetPassword = createAsyncThunk(
+        'user/fetchResetPassword',
+        async (payload: IResetPassword) => {
+            const res = await fetch(Rest.userService + '/reset-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    code: payload.code,
+                    password: payload.password
+                })
+            }).then(data => data.json());
+            return res;
+        }
+    )
+
+
+
+
 const userSlice = createSlice({
     name: 'user',
     initialState: initialUserState,
@@ -187,9 +239,15 @@ const userSlice = createSlice({
                 );
             }
         });
+
         build.addCase(fetchUpdateProfile.fulfilled, (state, action: PayloadAction<IResponse>) => {
             if (action.payload.code === 200) {
                 state.userProfile = action.payload.data;
+
+        build.addCase(fetchForgotPassword.fulfilled, (state, action: PayloadAction<IResponse>) => {
+            if (action.payload.code === 200) {
+                
+
             }
         })
     }

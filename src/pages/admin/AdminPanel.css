@@ -1,0 +1,95 @@
+.admin-panel {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+  transition: width 0.5s;
+}
+
+.sidebar-header {
+  padding: 1rem;
+  border-bottom: 1px solid #444;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  padding: 1rem;
+  border-bottom: 1px solid #444;
+}
+
+.sidebar a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+.main-content {
+  padding: 2rem;
+  transition: margin-left 0.5s;
+}
+
+.navbar {
+  background-color: #333;
+  color: #fff;
+}
+
+.navbar-nav {
+  flex-direction: row;
+}
+
+.nav-link {
+  color: #fff;
+}
+
+.nav-link:hover {
+  color: #ccc;
+}
+.logout-button {
+  z-index: 1;
+}
+
+.logout-button button {
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  background-color: #e74c3c;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.logout-button button:hover {
+  background-color: #c0392b;
+}
+
+.logout-button button:focus {
+  outline: none;
+  box-shadow: none;
+}
+.btn-logout {
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-logout:hover {
+  background-color: #c0392b;
+  color: #fff;
+}
