@@ -22,6 +22,7 @@
     "react-router-dom": "^6.25.1",
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.5",
+    "reactstrap": "^9.2.2",
     "sweetalert": "^2.1.2",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
@@ -49,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/reactstrap": "^8.7.2"
   }
 }
