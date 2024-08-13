@@ -24,7 +24,7 @@ function Login() {
         const role = decodedToken.role;
 
         if (role === 'ADMIN') {
-          navigate('/pendingusers');
+          navigate('/adminpanel');
         } else {
           navigate('/dashboard');
         }

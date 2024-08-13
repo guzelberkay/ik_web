@@ -40,13 +40,15 @@ interface IUserState {
     userSearchList: ISearchUser[],
     searchEmail: string,
     pendingUsers: IPendingUsers[];
+    
 }
 const initialUserState: IUserState = {
     userProfile: null,
     isLoading: false,
     userSearchList: [],
     searchEmail: '',
-    pendingUsers: []
+    pendingUsers: [],
+   
 }
 
 // Fetch Pending Users
@@ -132,19 +134,14 @@ export const fetchSearchUserList = createAsyncThunk(
     }
 )
 
-//Update User
-/* interface IFetchUpdateProfilePayload {
-    name: string
-    email: string
-    avatar: string
-    company: string
-    title: string
-    phone: string
-    numberOfEmployee: string
-    purposeOfRequest: string
+
+ interface IFetchUpdateProfilePayload {
     token: string
-} */
-/* export const fetchUpdateProfile = createAsyncThunk(
+    avatar: string
+    firstName: string
+    lastName: string
+} 
+ export const fetchUpdateProfile = createAsyncThunk(
     'user/fetchUpdateProfile',
     async (payload: IFetchUpdateProfilePayload) => {
         const res = await fetch(Rest.userService + '/edit-profile', {
@@ -153,20 +150,19 @@ export const fetchSearchUserList = createAsyncThunk(
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                email: payload.email,
+                token: payload.token,
                 avatar: payload.avatar,
-                name: payload.name,
-                about: payload.company,
-                title: payload.title,
-                phone: payload.phone,
-                numberOfEmployee: payload.numberOfEmployee,
-                purposeOfRequest: payload.purposeOfRequest,
-                token: payload.token
+                firstName: payload.firstName,
+                lastName: payload.lastName,
+                
             })
         }).then(data => data.json());
         return res;
     }
-) */
+
+) 
+
+
     interface IFetchForgotPasswordPayload {
         email: string
     }
@@ -210,6 +206,7 @@ export const fetchSearchUserList = createAsyncThunk(
 
 
 
+
 const userSlice = createSlice({
     name: 'user',
     initialState: initialUserState,
@@ -242,9 +239,15 @@ const userSlice = createSlice({
                 );
             }
         });
+
+        build.addCase(fetchUpdateProfile.fulfilled, (state, action: PayloadAction<IResponse>) => {
+            if (action.payload.code === 200) {
+                state.userProfile = action.payload.data;
+
         build.addCase(fetchForgotPassword.fulfilled, (state, action: PayloadAction<IResponse>) => {
             if (action.payload.code === 200) {
                 
+
             }
         })
     }
