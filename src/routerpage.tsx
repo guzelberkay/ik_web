@@ -4,6 +4,7 @@ import Login from "./pages/login/Login";
 
 import VisitorPage from "./pages/visitorPage/VisitorPage";
 import UserStories from "./pages/userStories/UserStories";
+import Dashboard from "./pages/userPage/Dashboard";
 import Resources from "./pages/resources/Resources";
 import { AppDispatch, useAppSelector } from "./store";
 import { useDispatch } from "react-redux";
@@ -50,10 +51,15 @@ function RouterPage() {
         <Route path="/resources" element={<Resources/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        <Route path="/PendingUsers" element={isLogin ? <PendingUsers /> : <Login />} />
+        <Route path="/Dashboard" element={isLogin ? <Dashboard /> : <Login />} />
+
         <Route path="/AdminPanel" element={isLogin ? <AdminPanel /> : <Login />} />
         <Route path="/forgetmypassword" element={<ForgetMyPassword />} />
         <Route path="/changeMyPassword" element={<ChangeMyPassword />} />
         <Route path="/createleavebycompanymanager" element={<CreateLeaveByCompanyManager />} />
+
       </Routes>
     </BrowserRouter>
   );
