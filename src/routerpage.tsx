@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
 
-import PendingUsers from "./pages/admin/PendingUsers"
 import VisitorPage from "./pages/visitorPage/VisitorPage";
 import UserStories from "./pages/userStories/UserStories";
 import Resources from "./pages/resources/Resources";
@@ -14,6 +13,7 @@ import { jwtDecode } from "jwt-decode";
 import ForgetMyPassword from "./pages/forgetMyPassword/ForgetMyPassword";
 import ChangeMyPassword from "./pages/changeMyPassword/ChangeMyPassword";
 import CreateLeaveByCompanyManager from "./pages/createLeaveByCompanyManager/CreateLeaveByCompanyManager";
+import AdminPanel from "./pages/admin/AdminPanel";
 
 
 
@@ -50,7 +50,7 @@ function RouterPage() {
         <Route path="/resources" element={<Resources/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/PendingUsers" element={isLogin ? <PendingUsers /> : <Login />} />
+        <Route path="/AdminPanel" element={isLogin ? <AdminPanel /> : <Login />} />
         <Route path="/forgetmypassword" element={<ForgetMyPassword />} />
         <Route path="/changeMyPassword" element={<ChangeMyPassword />} />
         <Route path="/createleavebycompanymanager" element={<CreateLeaveByCompanyManager />} />
