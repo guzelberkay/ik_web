@@ -15,6 +15,7 @@ import ForgetMyPassword from "./pages/forgetMyPassword/ForgetMyPassword";
 import ChangeMyPassword from "./pages/changeMyPassword/ChangeMyPassword";
 import CreateLeaveByCompanyManager from "./pages/createLeaveByCompanyManager/CreateLeaveByCompanyManager";
 import AdminPanel from "./pages/admin/AdminPanel";
+import PendingUsers from "./pages/admin/PendingUsers";
 
 
 

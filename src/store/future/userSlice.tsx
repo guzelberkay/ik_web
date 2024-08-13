@@ -207,53 +207,55 @@ export const fetchSearchUserList = createAsyncThunk(
 
 
 
-const userSlice = createSlice({
-    name: 'user',
-    initialState: initialUserState,
-    reducers: {
-        setSearchEmail(state, action) {
-            state.searchEmail = action.payload;
+    const userSlice = createSlice({
+        name: 'user',
+        initialState: initialUserState,
+        reducers: {
+            setSearchEmail(state, action) {
+                state.searchEmail = action.payload;
+            }
+        },
+        extraReducers: (build) => {
+            build.addCase(fetchgetUserProfile.fulfilled, (state, action: PayloadAction<IResponse>) => {
+                if (action.payload.code === 200) {
+                    state.userProfile = action.payload.data;
+                }
+            });
+            build.addCase(fetchSearchUserList.fulfilled, (state, action: PayloadAction<IResponse>) => {
+                state.userSearchList = action.payload.data;
+            });
+            build.addCase(fetchGetPendingUsers.fulfilled, (state, action: PayloadAction<IResponse>) => {
+                if (action.payload.code === 200) {
+                    state.pendingUsers = action.payload.data;
+                }
+            });
+            build.addCase(updatePendingUserStatus.fulfilled, (state, action: PayloadAction<IResponse>) => {
+                if (action.payload.code === 200) {
+                    const updatedUser = action.payload.data;
+                    state.userSearchList = state.userSearchList.map(user =>
+                        user.id === updatedUser.id ? updatedUser : user
+                    );
+                }
+            });
+            build.addCase(fetchUpdateProfile.fulfilled, (state, action: PayloadAction<IResponse>) => {
+                if (action.payload.code === 200) {
+                    state.userProfile = action.payload.data;
+                }
+            });
+            build.addCase(fetchForgotPassword.fulfilled, (state, action: PayloadAction<IResponse>) => {
+                if (action.payload.code === 200) {
+                    // Handle successful forgot password case
+                }
+            });
+            build.addCase(fetchResetPassword.fulfilled, (state, action: PayloadAction<IResponse>) => {
+                if (action.payload.code === 200) {
+                    // Handle successful reset password case
+                }
+            });
         }
-    },
-    extraReducers: (build) => {
-        build.addCase(fetchgetUserProfile.fulfilled, (state, action: PayloadAction<IResponse>) => {
-            if (action.payload.code === 200) {
-                state.userProfile = action.payload.data;
-            }
-        });
-        build.addCase(fetchSearchUserList.fulfilled, (state, action: PayloadAction<IResponse>) => {
-            state.userSearchList = action.payload.data;
-        });
-        build.addCase(fetchGetPendingUsers.fulfilled, (state, action: PayloadAction<IResponse>) => {
-            
-            if (action.payload.code === 200) {
-                
-                state.pendingUsers = action.payload.data;
-            }
-        });
-        build.addCase(updatePendingUserStatus.fulfilled, (state, action: PayloadAction<IResponse>) => {
-            if (action.payload.code === 200) {
-                const updatedUser = action.payload.data;
-                state.userSearchList = state.userSearchList.map(user =>
-                    user.id === updatedUser.id ? updatedUser : user
-                );
-            }
-        });
-
-        build.addCase(fetchUpdateProfile.fulfilled, (state, action: PayloadAction<IResponse>) => {
-            if (action.payload.code === 200) {
-                state.userProfile = action.payload.data;
-
-        build.addCase(fetchForgotPassword.fulfilled, (state, action: PayloadAction<IResponse>) => {
-            if (action.payload.code === 200) {
-                
-
-            }
-        })
-    }
-});
-
-export const {
-    setSearchEmail
-} = userSlice.actions;
-export default userSlice.reducer;
+    });
+    
+    export const {
+        setSearchEmail
+    } = userSlice.actions;
+    export default userSlice.reducer;
