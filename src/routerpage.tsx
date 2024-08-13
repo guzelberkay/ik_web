@@ -11,6 +11,9 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { clearToken, setToken } from "./store/future/authSlice";
 import { jwtDecode } from "jwt-decode";
+import ForgetMyPassword from "./pages/forgetMyPassword/ForgetMyPassword";
+import ChangeMyPassword from "./pages/changeMyPassword/ChangeMyPassword";
+import CreateLeaveByCompanyManager from "./pages/createLeaveByCompanyManager/CreateLeaveByCompanyManager";
 
 
 
@@ -48,6 +51,9 @@ function RouterPage() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/PendingUsers" element={isLogin ? <PendingUsers /> : <Login />} />
+        <Route path="/forgetmypassword" element={<ForgetMyPassword />} />
+        <Route path="/changeMyPassword" element={<ChangeMyPassword />} />
+        <Route path="/createleavebycompanymanager" element={<CreateLeaveByCompanyManager />} />
       </Routes>
     </BrowserRouter>
   );

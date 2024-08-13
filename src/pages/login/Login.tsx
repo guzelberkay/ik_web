@@ -34,6 +34,9 @@ function Login() {
     });
   };
   
+  const goForgotPassword = () => {
+    navigate('/forgetmypassword');
+  }
 
   return (
     <section className="login-wrapper" style={{minWidth: '200vh'}} >
@@ -62,7 +65,7 @@ function Login() {
           </div>
           <button type="button" onClick={login}>Giriş Yap</button>
           <div className="links">
-            <a className="forgotPassword" onClick={() => alert("Parolamı Unuttum fonksiyonu eklenmedi.")}>Parolamı Unuttum</a>
+            <a className="forgotPassword" onClick={goForgotPassword}>Parolamı Unuttum</a>
             <a href="register">Kayıt Ol</a>
           </div>
         </form>

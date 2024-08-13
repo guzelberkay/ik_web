@@ -167,6 +167,49 @@ export const fetchSearchUserList = createAsyncThunk(
         return res;
     }
 ) */
+    interface IFetchForgotPasswordPayload {
+        email: string
+    }
+
+    export const fetchForgotPassword = createAsyncThunk(
+        'user/fetchForgotPassword',
+        async (payload: IFetchForgotPasswordPayload) => {
+            const res = await fetch(Rest.userService + '/forgot-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: payload.email
+                })
+            }).then(data => data.json());
+            return res;
+        }
+    )
+
+    interface IResetPassword {
+        code: string
+        password: string
+    }
+    export const fetchResetPassword = createAsyncThunk(
+        'user/fetchResetPassword',
+        async (payload: IResetPassword) => {
+            const res = await fetch(Rest.userService + '/reset-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    code: payload.code,
+                    password: payload.password
+                })
+            }).then(data => data.json());
+            return res;
+        }
+    )
+
+
+
 const userSlice = createSlice({
     name: 'user',
     initialState: initialUserState,
@@ -199,6 +242,11 @@ const userSlice = createSlice({
                 );
             }
         });
+        build.addCase(fetchForgotPassword.fulfilled, (state, action: PayloadAction<IResponse>) => {
+            if (action.payload.code === 200) {
+                
+            }
+        })
     }
 });
 
