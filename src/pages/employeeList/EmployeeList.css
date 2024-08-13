@@ -1,0 +1,66 @@
+.employee-list {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.employee-form {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.employee-form input,
+.employee-form select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.employee-form button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+}
+
+.employee-form button:hover {
+    background-color: #218838;
+}
+
+.employee-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.employee-list th, .employee-list td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.employee-list th {
+    background-color: #f2f2f2;
+}
+
+.employee-list button {
+    margin-right: 10px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.employee-list button:hover {
+    background-color: #0056b3;
+}
+.readonly-input {
+    background-color: #f0f0f0;
+    color: #6c757d;
+    border: 1px solid #ccc;
+  }
