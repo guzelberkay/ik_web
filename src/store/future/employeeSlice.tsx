@@ -7,8 +7,8 @@ export interface Employee {
   lastName: string;
   email: string;
   password: string;
-  hireDate: string;
-  birthDate: string;
+  hireDate: number;
+  birthDate: number;
   annualLeave: number;
   active: boolean;
 }
