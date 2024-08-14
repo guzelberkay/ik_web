@@ -9,6 +9,7 @@ export interface Employee {
   password: string;
   hireDate: number;
   birthDate: number;
+  company: number,
   annualLeave: number;
   active: boolean;
 }
@@ -49,6 +50,32 @@ export const fetchEmployees = createAsyncThunk(
     }
   }
 );
+
+export const fetchEmployeesByCompanyManagerId = createAsyncThunk(
+  'employee/fetchEmployeesByCompanyManagerId',
+  async (companyManagerId: number, { rejectWithValue }) => {
+    console.log('Received companyManagerId:', companyManagerId);
+    try {
+      const response = await fetch(`${Rest.employeeService}/get-employees-by-company-manager/${companyManagerId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch employees for the company manager');
+      }
+
+      const result = await response.json();
+      return result.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 
 export const addEmployee = createAsyncThunk(
   'employee/addEmployee',
@@ -96,31 +123,6 @@ export const updateEmployee = createAsyncThunk(
     }
   }
 );
-/* // Add or Update Employee
-export const addOrUpdateEmployee = createAsyncThunk(
-    'employee/addOrUpdateEmployee',
-    async (employee: Employee, { rejectWithValue }) => {
-        try {
-            const response = await fetch(
-                Rest.employeeService + (employee.userId ? `/update/${employee.userId}` : '/add'), 
-                {
-                    method: employee.userId ? 'PUT' : 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(employee),
-                }
-            );
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return (await response.json()).data;
-        } catch (error) {
-            return rejectWithValue(error);
-        }
-    }
-);
- */
 
 // Update Employee Status (Activate/Deactivate)
 export const updateEmployeeStatus = createAsyncThunk(
@@ -212,8 +214,19 @@ const employeeSlice = createSlice({
       .addCase(fetchEmployees.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      .addCase(fetchEmployeesByCompanyManagerId.pending, (state) => {
+        state.loading = true;
+        state.error = '';
+      })
+      .addCase(fetchEmployeesByCompanyManagerId.fulfilled, (state, action: PayloadAction<Employee[]>) => {
+        state.employees = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchEmployeesByCompanyManagerId.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
-
   },
 });
 
