@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import SideBar from '../../components/molecules/SideBar';
 import UserUpdateForm from '../../components/molecules/UserUpdateForm';
+import LeaveSave from '../../components/molecules/LeaveSave';
+import EmployeeList from '../employeeList/EmployeeList';
 
 function Dashboard() {
   const [activeItem, setActiveItem] = useState<string>('home');
@@ -10,6 +12,8 @@ function Dashboard() {
       <SideBar activeItem={activeItem} setActiveItem={setActiveItem} />
       <div className="col" style={{ marginLeft: '280px', padding: '20px' }}>
         {activeItem === 'userupdate' && <UserUpdateForm />}
+        {activeItem === 'leavesave' && <LeaveSave />}
+        {activeItem === 'employeesave' && <EmployeeList />}
       </div>
     </div>
   );
