@@ -9,6 +9,7 @@ export interface Employee {
   password: string;
   hireDate: number;
   birthDate: number;
+  company: number,
   annualLeave: number;
   active: boolean;
 }

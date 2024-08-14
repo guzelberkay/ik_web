@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEmployees, updateEmployee, addEmployee, deleteEmployee, Employee } from '../../store/future/employeeSlice';
 import { RootState, AppDispatch } from '../../store';
+import { ICompany, fetchCompanies } from '../../store/future/companySlice';
 import './EmployeeList.css';
 
 /* function convertDateToEpoch(date: Date, inMilliseconds: boolean = false): number {
@@ -36,9 +37,9 @@ function convertDateToEpoch(date: Date, inMilliseconds: boolean = false): number
 
   // Epoch time'ı milisaniye veya saniye olarak döndürür.
   if (inMilliseconds) {
-      return date.getTime();
+    return date.getTime();
   } else {
-      return Math.floor(date.getTime() / 1000);
+    return Math.floor(date.getTime() / 1000);
   }
 }
 
@@ -54,13 +55,21 @@ const EmployeeList = () => {
     password: '',
     hireDate: 0,
     birthDate: 0,
+    company: 0,
     annualLeave: 0,
     active: false,
   });
   const [isUpdating, setIsUpdating] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState<number>(0);
+  const companies = useSelector((state: RootState) => state.company.companies);
+
 
   useEffect(() => {
     dispatch(fetchEmployees());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchCompanies())
   }, [dispatch]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -71,6 +80,13 @@ const EmployeeList = () => {
     });
   };
 
+  const handleCompanyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCompany(Number(e.target.value));
+    setEmployeeForm({
+      ...employeeForm,
+      company: Number(e.target.value),
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,6 +95,7 @@ const EmployeeList = () => {
       ...employeeForm,
       hireDate: convertDateToEpoch(new Date(employeeForm.hireDate), true),
       birthDate: convertDateToEpoch(new Date(employeeForm.birthDate), true),
+      company: selectedCompany,
     };
 
     try {
@@ -95,9 +112,11 @@ const EmployeeList = () => {
         password: '',
         hireDate: 0,
         birthDate: 0,
+        company: 0,
         annualLeave: 0,
         active: false,
       });
+      setSelectedCompany(0);
       setIsUpdating(false);
       dispatch(fetchEmployees());
     } catch (err) {
@@ -196,6 +215,22 @@ const EmployeeList = () => {
           <option value="true">Aktif</option>
           <option value="false">Pasif</option>
         </select>
+
+        <select
+          className='form-select'
+          id="company"
+          value={selectedCompany}
+          onChange={handleCompanyChange}
+          required
+        >
+          <option value="">Şirket Seç</option>
+          {companies.map((company) => (
+            <option key={company.companyId} value={company.companyId}>
+              {company.companyName}
+            </option>
+          ))}
+        </select>
+
         <button type="submit">{isUpdating ? 'Güncelle' : 'Ekle'}</button>
       </form>
       <table>
@@ -208,6 +243,7 @@ const EmployeeList = () => {
             <th>İşe Başlama Tarihi</th>
             <th>Doğum Tarihi</th>
             <th>Yıllık İzin</th>
+            <th>Company ID</th>
             <th>Durum</th>
             <th>İşlemler</th>
           </tr>
@@ -222,6 +258,7 @@ const EmployeeList = () => {
               <td>{epochToCustomDate(employee.hireDate)}</td>
               <td>{epochToCustomDate(employee.birthDate)}</td>
               <td>{employee.annualLeave}</td>
+              <td>{employee.company}</td>
               <td>{employee.active ? 'Aktif' : 'Pasif'}</td>
               <td>
                 <button onClick={() => handleEdit(employee)}>Düzenle</button>
