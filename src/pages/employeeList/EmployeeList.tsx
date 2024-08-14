@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchEmployees, updateEmployee, addEmployee, deleteEmployee, Employee } from '../../store/future/employeeSlice';
+import { fetchEmployees, updateEmployee, addEmployee, deleteEmployee, Employee, fetchEmployeesByCompanyManagerId } from '../../store/future/employeeSlice';
 import { RootState, AppDispatch } from '../../store';
 import { ICompany, fetchCompanies } from '../../store/future/companySlice';
 import './EmployeeList.css';
@@ -63,10 +63,15 @@ const EmployeeList = () => {
   const [selectedCompany, setSelectedCompany] = useState<number>(0);
   const companies = useSelector((state: RootState) => state.company.companies);
 
+  const companyManagerIdString = localStorage.getItem('userId');
+  const companyManagerId = companyManagerIdString ? parseInt(companyManagerIdString) : null;
 
   useEffect(() => {
-    dispatch(fetchEmployees());
-  }, [dispatch]);
+    if (companyManagerId !== null) {
+      console.log('Dispatched companyManagerId:', companyManagerId);
+      dispatch(fetchEmployeesByCompanyManagerId(companyManagerId));
+    }
+  }, [dispatch, companyManagerId]);
 
   useEffect(() => {
     dispatch(fetchCompanies())

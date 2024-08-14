@@ -16,12 +16,22 @@ function Login() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  // userId'yi saklamak için bir state
+  const [userId, setUserId] = useState<number | null>(null);
+
   const login = () => {
     dispatch(fetchLogin({ email, password })).then((data: any) => {
       if (data.payload && data.payload.code === 200) {
         const token = data.payload.data;
         const decodedToken = decodeToken(token);
         const role = decodedToken.role;
+        const userId = decodedToken.userId;
+
+        // userId'yi state'e kaydedin
+        setUserId(userId);
+
+        // userId'yi localStorage'a kaydeder
+        localStorage.setItem('userId', userId.toString());
 
         if (role === 'ADMIN') {
           navigate('/adminpanel');
