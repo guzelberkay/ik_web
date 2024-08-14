@@ -41,7 +41,7 @@ function RouterPage() {
   },[]);
 
   const isLogin = useAppSelector(state => state.auth.isAuth);
-
+  const role = useAppSelector(state => state.auth.user?.role);
 
 
 
@@ -54,15 +54,13 @@ function RouterPage() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/PendingUsers" element={isLogin ? <PendingUsers /> : <Login />} />
-        <Route path="/Dashboard" element={isLogin ? <Dashboard /> : <Login />} />
+        
+        <Route path="/Dashboard" element={isLogin && role === 'COMPANY_MANAGER' ? <Dashboard /> : <Login />} />
 
-        <Route path="/AdminPanel" element={isLogin ? <AdminPanel /> : <Login />} />
+        <Route path="/AdminPanel" element={isLogin && role === 'ADMIN' ? <AdminPanel /> : <Login />} />
         <Route path="/forgetmypassword" element={<ForgetMyPassword />} />
         <Route path="/changeMyPassword" element={<ChangeMyPassword />} />
         
-
-        <Route path="/employeelist" element={isLogin ? <EmployeeList /> : <Login />} />
 
       </Routes>
     </BrowserRouter>

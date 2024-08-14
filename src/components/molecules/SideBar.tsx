@@ -11,6 +11,10 @@ function SideBar({ activeItem, setActiveItem }: SideBarProps) {
   const handleItemClick = (item: string) => {
     setActiveItem(item);
   };
+  const logout = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+  };
 
   return (
     <div 
@@ -89,6 +93,16 @@ function SideBar({ activeItem, setActiveItem }: SideBarProps) {
           >
             <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
             Çalışan Ekle
+          </a>
+        </li>
+        <li>
+          <a 
+            href="#" 
+            className={`nav-link link-dark`}
+            onClick={() => logout()}
+          >
+            <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
+            Çıkış Yap
           </a>
         </li>
       </ul>
