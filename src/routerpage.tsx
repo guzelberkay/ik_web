@@ -14,7 +14,7 @@ import { clearToken, setToken } from "./store/future/authSlice";
 import { jwtDecode } from "jwt-decode";
 import ForgetMyPassword from "./pages/forgetMyPassword/ForgetMyPassword";
 import ChangeMyPassword from "./pages/changeMyPassword/ChangeMyPassword";
-import CreateLeaveByCompanyManager from "./pages/createLeaveByCompanyManager/CreateLeaveByCompanyManager";
+
 import AdminPanel from "./pages/admin/AdminPanel";
 import PendingUsers from "./pages/admin/PendingUsers";
 
@@ -60,7 +60,7 @@ function RouterPage() {
         <Route path="/AdminPanel" element={isLogin ? <AdminPanel /> : <Login />} />
         <Route path="/forgetmypassword" element={<ForgetMyPassword />} />
         <Route path="/changeMyPassword" element={<ChangeMyPassword />} />
-        <Route path="/createleavebycompanymanager" element={<CreateLeaveByCompanyManager />} />
+        
 
         <Route path="/employeelist" element={isLogin ? <EmployeeList /> : <Login />} />
 

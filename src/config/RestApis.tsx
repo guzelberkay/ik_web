@@ -6,6 +6,7 @@ const apis = {
     userService: server+'/user',
     adminService: server+'/admin',
     employeeService: server+'/employee',
+    companyService: server+'/company',
 }
 
 export default apis;

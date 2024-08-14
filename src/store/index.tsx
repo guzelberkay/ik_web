@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { 
-  authSlice, userSlice, employeeSlice
+  authSlice, userSlice, employeeSlice,
+  companySlice
 } from "./future";
 import { useSelector} from 'react-redux';
 const store = configureStore({
@@ -8,6 +9,7 @@ const store = configureStore({
     auth: authSlice,
     user: userSlice,
     employee: employeeSlice,
+    company: companySlice
   }
 });
 export type AppDispatch = typeof store.dispatch;

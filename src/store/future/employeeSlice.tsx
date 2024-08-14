@@ -12,14 +12,23 @@ export interface Employee {
   annualLeave: number;
   active: boolean;
 }
+export interface IEmployeeForLeveave { 
+  employeeId : number;
+  employeeName : string;
+  employeeSurname : string;
+  annualLeave : number;
+}
+
 
 interface EmployeeState {
   employees: Employee[];
+  employeesForLeave: IEmployeeForLeveave[];
   loading: boolean;
   error: string;
 }
 
 const initialState: EmployeeState = {
+  employeesForLeave: [],
   employees: [],
   loading: false,
   error: '',
@@ -141,6 +150,27 @@ export const deleteEmployee = createAsyncThunk(
     return userId;
   }
 );
+
+export const fetchEmployeesForLeave = createAsyncThunk(
+  'employee/fetchEmployeesForLeave',
+  async (payload:number) => {
+    const response = await fetch(Rest.employeeService + '/get-employee-by-company-id', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },body: JSON.stringify({
+        companyId: payload,
+        token: localStorage.getItem('token')
+      })
+    });
+    if (!response.ok) {
+      throw new Error('Failed to fetch employees');
+    }
+    const result = await response.json();
+    return result;
+  }
+)
 
 const employeeSlice = createSlice({
   name: 'employee',
