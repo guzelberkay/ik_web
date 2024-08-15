@@ -85,6 +85,7 @@ export const addEmployee = createAsyncThunk(
       const response = await fetch(Rest.employeeService + '/add', {
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(employee),
