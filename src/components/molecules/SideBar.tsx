@@ -88,6 +88,16 @@ function SideBar({ activeItem, setActiveItem }: SideBarProps) {
         <li>
           <a 
             href="#" 
+            className={`nav-link link-dark ${activeItem === 'leavemanage' ? 'active' : ''}`}
+            onClick={() => handleItemClick('leavemanage')}
+          >
+            <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
+            İzin Talepleri
+          </a>
+        </li>
+        <li>
+          <a 
+            href="#" 
             className={`nav-link link-dark ${activeItem === 'employeesave' ? 'active' : ''}`}
             onClick={() => handleItemClick('employeesave')}
           >

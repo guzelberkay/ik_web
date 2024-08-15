@@ -30,6 +30,7 @@ export default function LeaveSave() {
             dispatch(fetchEmployeesForLeave(selectedCompany))
         }
     }, [dispatch, selectedCompany]);
+    
 
     
 
@@ -55,9 +56,10 @@ export default function LeaveSave() {
     };
 
     return (
-        <div className='shadow p-5' style={{ padding: '20px', backgroundColor: 'white', borderRadius: '10px' }}>
-            
-            <div className='m-4'>
+        <div className='container'>
+            <h1>İzin Tanımla</h1>
+           <div className="row p-5">
+           <div className='m-4'>
                 
                 <select
                 className='form-select'
@@ -133,6 +135,7 @@ export default function LeaveSave() {
             <button className='btn btn-success' onClick={handleCreateLeave}>İzin Oluştur</button>
             </div>
             
+           </div>
         </div>
     );
 }
