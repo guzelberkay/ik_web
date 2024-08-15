@@ -7,6 +7,7 @@ const apis = {
     adminService: server+'/admin',
     employeeService: server+'/employee',
     companyService: server+'/company',
+    leaveService: server+'/leave',
 }
 
 export default apis;

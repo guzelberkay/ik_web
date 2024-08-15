@@ -4,35 +4,53 @@ import { AppDispatch, useAppSelector } from '../../store';
 import { useDispatch } from 'react-redux';
 import { fetchEmployeesForLeave, IEmployeeForLeveave } from '../../store/future/employeeSlice';
 import { LeaveType } from '../models/enum';
+import { dateToEpoch } from '../../util/dateFormatter';
+import { fetchSaveLeave } from '../../store/future/leaveSlice';
+import swal from 'sweetalert';
 
 export default function LeaveSave() {
     const dispatch: AppDispatch = useDispatch();
     const [selectedCompany, setSelectedCompany] = useState<number>(0);
-    const [selectedEmployee, setSelectedEmployee] = useState('');
+    const [selectedEmployee, setSelectedEmployee] = useState<number>(0);
     const [selectedReason, setSelectedReason] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [description, setDescription] = useState<string>('');
+    const [startDate, setStartDate] = useState<string>('');
+    const [endDate, setEndDate] = useState<string>('');
 
     const companyList: ICompany[] = useAppSelector(state => state.company.companies) || [];
     const employeeList: IEmployeeForLeveave [] = useAppSelector(state => state.employee.employeesForLeave) || [];
+    
 
     useEffect(() => {
-        dispatch(fetchCompanies()).then(() => {
-            dispatch(fetchEmployeesForLeave(selectedCompany));
-        });
+        dispatch(fetchCompanies())
     }, [dispatch]);
 
+    useEffect(() => {
+        if(selectedCompany>0){
+            dispatch(fetchEmployeesForLeave(selectedCompany))
+        }
+    }, [dispatch, selectedCompany]);
 
-
+    
 
     const handleCreateLeave = () => {
-        
-        console.log({
-            selectedCompany,
-            selectedEmployee,
-            selectedReason,
-            startDate,
-            endDate,
+        const epochstart = dateToEpoch(startDate);
+        const epochend = dateToEpoch(endDate);
+        dispatch(fetchSaveLeave({employeeId: selectedEmployee, leaveType: selectedReason, startDate: epochstart, endDate: epochend, description: description})).then((data) => {
+            if(data.payload.code === 200){
+                swal("Basarılı", data.payload.message, "success").then(() => {
+                    setSelectedCompany(0);
+                    setSelectedEmployee(0);
+                    setSelectedReason('');
+                    setDescription('');
+                    setStartDate('');
+                    setEndDate('');
+                });
+            } else {
+                swal("Hata", data.payload.message, "error");
+            }
+           
+
         });
     };
 
@@ -60,7 +78,7 @@ export default function LeaveSave() {
                 className='form-select'
                     id="employee"
                     value={selectedEmployee}
-                    onChange={(e) => setSelectedEmployee(e.target.value)}
+                    onChange={(e) => setSelectedEmployee(Number(e.target.value))}
                 >
                     <option value="">Çalışan Seç</option>
                     {employeeList.length > 0 && employeeList.map((employee, index) => <option key={index} value={employee.employeeId}>{employee.employeeName}, {employee.employeeSurname}, {employee.annualLeave}</option>)}
@@ -79,6 +97,17 @@ export default function LeaveSave() {
                     <option value={LeaveType.MATERNITY}>Annelik İzni</option>
                     <option value={LeaveType.OTHER}>Diğer</option>
                 </select>
+            </div>
+            <div className='m-4'>
+                
+                <input
+                    className='form-input'
+                    type="text"
+                    id="description"
+                    placeholder='İzin Açıklaması'
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
             </div>
             <div className='m-4'>
                 

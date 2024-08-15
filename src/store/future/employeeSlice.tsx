@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Rest from '../../config/RestApis';
+import { IResponse } from '../../components/models/IResponse';
 
 export interface Employee {
   user: number;
@@ -155,24 +156,28 @@ export const deleteEmployee = createAsyncThunk(
 
 export const fetchEmployeesForLeave = createAsyncThunk(
   'employee/fetchEmployeesForLeave',
-  async (payload:number) => {
-    const response = await fetch(Rest.employeeService + '/get-employee-by-company-id', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json',
-      },body: JSON.stringify({
-        companyId: payload,
-        token: localStorage.getItem('token')
-      })
-    });
-    if (!response.ok) {
-      throw new Error('Failed to fetch employees');
-    }
-    const result = await response.json();
-    return result;
+  async (payload: number, { rejectWithValue }) => {
+    
+      const response = await fetch(
+        `${Rest.employeeService}/get-employee-by-company-id/${payload}`, 
+        {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch employees');
+      }
+
+      const result = await response.json();
+      return result;
+     
   }
-)
+);
 
 const employeeSlice = createSlice({
   name: 'employee',
@@ -226,6 +231,21 @@ const employeeSlice = createSlice({
       .addCase(fetchEmployeesByCompanyManagerId.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      .addCase(fetchEmployeesForLeave.pending, (state) => {
+        state.loading = true;
+      })
+      
+      .addCase(fetchEmployeesForLeave.fulfilled, (state, action: PayloadAction<IResponse>) => {
+        state.loading = false;
+        console.log('employeesForLeave fullfilled', action.payload.data);
+        if(action.payload.code === 200){
+          state.employeesForLeave = action.payload.data;
+        }
+      })
+
+      .addCase(fetchEmployeesForLeave.rejected, (state, action) => {
+        state.loading = false;
       });
   },
 });
