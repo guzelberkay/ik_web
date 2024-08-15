@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchEmployees, updateEmployee, addEmployee, deleteEmployee, Employee, fetchEmployeesByCompanyManagerId } from '../../store/future/employeeSlice';
 import { RootState, AppDispatch } from '../../store';
 import { ICompany, fetchCompanies } from '../../store/future/companySlice';
+import {dateToEpoch} from '../../util/dateFormatter';
 import './EmployeeList.css';
 
 /* function convertDateToEpoch(date: Date, inMilliseconds: boolean = false): number {
@@ -13,16 +14,18 @@ import './EmployeeList.css';
   }
 } */
 
-function epochToCustomDate(epochTime: number): string {
-  // Epoch zamanını milisaniyeye dönüştürerek Date nesnesi oluşturun
-  const date = new Date(epochTime * 1000);
 
-  // Gün, Ay ve Yıl değerlerini alın
-  const day = String(date.getUTCDate()).padStart(2, '0');
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Ay değeri 0'dan başladığı için 1 ekliyoruz
+function formatTimestamp(timestamp: number): string {
+  console.log('timestamp: ', timestamp);
+  // Zaman damgasını milisaniyeye çevirin
+  const date = new Date(timestamp * 1000);
+
+  // Gün, ay ve yıl bilgilerini alın
+  const day = date.getUTCDate().toString().padStart(2, '0');
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Ay değeri 0'dan başladığı için 1 ekliyoruz
   const year = date.getUTCFullYear();
 
-  // İstenen formatta birleştirin
+  // gg-aa-yyyy formatında birleştirin
   return `${day}-${month}-${year}`;
 }
 
@@ -41,6 +44,20 @@ function convertDateToEpoch(date: Date, inMilliseconds: boolean = false): number
   } else {
     return Math.floor(date.getTime() / 1000);
   }
+  
+}
+function epochToCustomDate(epochTimeInMilliseconds: number): string {
+  console.log('epochTimeInMilliseconds: ', epochTimeInMilliseconds);
+  // Zaman damgasından Date nesnesi oluşturma
+  const date = new Date(epochTimeInMilliseconds);
+
+  // Gün, ay ve yıl bilgilerini alalım
+  const day = date.getUTCDate().toString().padStart(2, '0');
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Ay değeri 0'dan başladığı için 1 ekliyoruz
+  const year = date.getUTCFullYear().toString().slice(-2); // Yılın son iki hanesini alıyoruz
+
+  // gg-aa-yy formatında birleştirin
+  return `${day}-${month}-${year}`;
 }
 
 
@@ -65,6 +82,8 @@ const EmployeeList = () => {
 
   const companyManagerIdString = localStorage.getItem('userId');
   const companyManagerId = companyManagerIdString ? parseInt(companyManagerIdString) : null;
+  const [hireDateString, setHireDateString] = useState<string>('');
+  const [birthDateString, setBirthDateString] = useState<string>('');
 
   useEffect(() => {
     if (companyManagerId !== null) {
@@ -98,8 +117,8 @@ const EmployeeList = () => {
 
     const convertedEmployeeForm = {
       ...employeeForm,
-      hireDate: convertDateToEpoch(new Date(employeeForm.hireDate), true),
-      birthDate: convertDateToEpoch(new Date(employeeForm.birthDate), true),
+      hireDate: dateToEpoch(hireDateString),
+      birthDate: dateToEpoch(birthDateString),
       company: selectedCompany,
     };
 
@@ -192,18 +211,19 @@ const EmployeeList = () => {
           required
         />
         <input
+          
           type="date"
           name="hireDate"
           placeholder="İşe Başlama Tarihi"
-          value={employeeForm.hireDate}
-          onChange={handleInputChange}
+          value={hireDateString}
+          onChange={(e)=>setHireDateString(e.target.value)}
         />
         <input
           type="date"
           name="birthDate"
           placeholder="Doğum Tarihi"
-          value={employeeForm.birthDate}
-          onChange={handleInputChange}
+          value={birthDateString}
+          onChange={(e)=>setBirthDateString(e.target.value)}
         />
         <input
           type="number"
@@ -260,8 +280,8 @@ const EmployeeList = () => {
               <td>{employee.firstName}</td>
               <td>{employee.lastName}</td>
               <td>{employee.email}</td>
-              <td>{epochToCustomDate(employee.hireDate)}</td>
-              <td>{epochToCustomDate(employee.birthDate)}</td>
+              <td>{formatTimestamp(employee.hireDate)}</td>
+              <td>{formatTimestamp(employee.birthDate)}</td>
               <td>{employee.annualLeave}</td>
               <td>{employee.company}</td>
               <td>{employee.active ? 'Aktif' : 'Pasif'}</td>
