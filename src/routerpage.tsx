@@ -41,8 +41,9 @@ function RouterPage() {
   },[]);
 
   const isLogin = useAppSelector(state => state.auth.isAuth);
-  const role = useAppSelector(state => state.auth.user?.role);
-
+  const role = useAppSelector(state => state.auth.user?.role) || localStorage.getItem('role') || '';
+  // alternatifi redux state manager
+  
 
 
   return (
