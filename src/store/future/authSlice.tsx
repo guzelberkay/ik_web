@@ -126,6 +126,7 @@ const authSlice = createSlice({
 
                 const decodedToken = decodeToken(state.token);
                 state.user = { ...state.user, role: decodedToken.role };
+                state.user.role = decodedToken.role;
             } else {
                 swal('Hata!', action.payload.message, 'error');
             }

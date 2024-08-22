@@ -12,6 +12,7 @@ export interface Employee {
   birthDate: number;
   company: number,
   annualLeave: number;
+  salary: number;
   active: boolean;
 }
 export interface IEmployeeForLeveave { 
