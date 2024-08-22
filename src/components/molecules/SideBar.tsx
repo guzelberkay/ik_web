@@ -13,6 +13,7 @@ function SideBar({ activeItem, setActiveItem }: SideBarProps) {
   };
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     window.location.href = '/login';
   };
 
@@ -68,11 +69,11 @@ function SideBar({ activeItem, setActiveItem }: SideBarProps) {
         <li>
           <a 
             href="#" 
-            className={`nav-link link-dark ${activeItem === 'products' ? 'active' : ''}`}
-            onClick={() => handleItemClick('products')}
+            className={`nav-link link-dark ${activeItem === 'manageexpenses' ? 'active' : ''}`}
+            onClick={() => handleItemClick('manageexpenses')}
           >
             <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
-            Products
+            Harcamaları Yönet
           </a>
         </li>
         <li>
@@ -83,6 +84,16 @@ function SideBar({ activeItem, setActiveItem }: SideBarProps) {
           >
             <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
             Çalışanlara İzin Tanımla
+          </a>
+        </li>
+        <li>
+          <a 
+            href="#" 
+            className={`nav-link link-dark ${activeItem === 'shift' ? 'active' : ''}`}
+            onClick={() => handleItemClick('shift')}
+          >
+            <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
+            Vardiya Tanımla
           </a>
         </li>
         <li>
@@ -108,11 +119,19 @@ function SideBar({ activeItem, setActiveItem }: SideBarProps) {
         <li>
           <a 
             href="#" 
+
             className={`nav-link link-dark ${activeItem === 'assignasset' ? 'active' : ''}`}
             onClick={() => handleItemClick('assignasset')}
           >
             <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
             Zimmet Ekle
+
+            className={`nav-link link-dark ${activeItem === 'savecomment' ? 'active' : ''}`}
+            onClick={() => handleItemClick('savecomment')}
+          >
+            <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
+            Yorum Ekle
+
           </a>
         </li>
         <li>

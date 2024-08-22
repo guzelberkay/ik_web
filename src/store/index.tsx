@@ -3,10 +3,18 @@ import {
   authSlice, userSlice, employeeSlice,
   companySlice,
   leaveSlice,
+
   assetManagementSlice,
   assetAssignSlice,
+
+  commentSlice,
+  expenseSlice,
+  shiftSlice
+
+
 } from "./future";
 import { useSelector} from 'react-redux';
+
 const store = configureStore({
   reducer:{
     auth: authSlice,
@@ -14,8 +22,14 @@ const store = configureStore({
     employee: employeeSlice,
     company: companySlice,
     leave: leaveSlice,
+
     assetManagement: assetManagementSlice,
     assignasset: assetAssignSlice,
+
+    comment: commentSlice,
+    shift: shiftSlice,
+    expense: expenseSlice
+
   }
 });
 export type AppDispatch = typeof store.dispatch;
