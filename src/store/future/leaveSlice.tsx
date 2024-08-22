@@ -10,6 +10,7 @@ export interface ILeave{
     description: string;
 }
 interface IInitialLeave{
+    pendingLeaves: IPendingLeaves[]
     isLoading: boolean
     
 }
@@ -20,8 +21,24 @@ export interface ILeaveRequest{
     endDate: number;
     description: string;
 }
+export interface IPendingLeaves{
+    leaveId: number;
+    employeeId: number;
+    employeeName: string;
+    employeeSurname: string;
+    leaveType: string;
+    startDate: number;
+    endDate: number;
+    description: string;
+    leaveStatus: string;
+}
+export interface IUpdateLeave{
+    leaveId: number;
+    isApproved: boolean;
+}
 
 const initialState: IInitialLeave ={
+    pendingLeaves: [],
     isLoading: false
 }
 export const fetchSaveLeave = createAsyncThunk(
@@ -53,6 +70,34 @@ export const fetchLeaveRequest = createAsyncThunk(
         return response;
     }
 )
+export const fetchGetPendingLeaves = createAsyncThunk(
+    'leave/fetchGetPendingLeaves',
+    async (companyId: number) => {
+        const response = await fetch(Rest.leaveService + '/get-pending-leaves/'+companyId, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            },
+        }).then(data => data.json());
+        return response;
+    }
+)
+export const fetchUpdateLeaveStatus = createAsyncThunk(
+    'leave/fetchUpdateLeaveStatus',
+    async (leave: IUpdateLeave) => {
+        const response = await fetch(Rest.leaveService + '/update-leave-status', {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(leave)
+        }).then(data => data.json());
+        return response;
+        
+    }
+)
 
 const leaveSlice = createSlice({
     name: 'leave',
@@ -80,6 +125,20 @@ const leaveSlice = createSlice({
             .addCase(fetchLeaveRequest.rejected, (state) => {
                 state.isLoading = false
             })
+            .addCase(fetchGetPendingLeaves.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(fetchGetPendingLeaves.fulfilled, (state, action: PayloadAction<IResponse>) => {
+                state.isLoading = false
+                if(action.payload.code === 200){
+                    state.pendingLeaves = action.payload.data
+                }
+                
+            })
+            .addCase(fetchGetPendingLeaves.rejected, (state) => {
+                state.isLoading = false
+            })
+            
     }
    
 })
