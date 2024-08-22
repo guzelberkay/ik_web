@@ -79,6 +79,7 @@ export const assignAsset = createAsyncThunk(
             method: 'POST',
             body: JSON.stringify({ userId, serialNumber, assetName, verificationStatus: 'Beklemede' }),
             headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             }
         });

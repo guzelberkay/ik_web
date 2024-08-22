@@ -32,7 +32,7 @@ input[type="text"] {
     font-size: 1rem;
 }
 
-button {
+.assign-btn {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
@@ -43,7 +43,7 @@ button {
     cursor: pointer;
 }
 
-button:disabled {
+.assign-btn:disabled {
     background-color: #cccccc;
 }
 

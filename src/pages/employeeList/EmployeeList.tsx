@@ -159,7 +159,7 @@ const EmployeeList = () => {
 
 return (
     <div className="employee-list">
-      <h2>Çalışan Listesi</h2>
+      <h1>Çalışan Listesi</h1>
 
       <form onSubmit={handleSubmit} className="employee-form">
         <label htmlFor="userid">Kullanıcı ID</label>

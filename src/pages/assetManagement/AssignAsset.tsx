@@ -112,7 +112,7 @@ const AssignAsset: React.FC = () => {
                     onChange={(e) => setSerialNumber(e.target.value)}
                 />
             </div>
-            <button onClick={handleAssignAsset} disabled={!selectedEmployeeId || !serialNumber || !assetName}>
+            <button className='assign-btn' onClick={handleAssignAsset} disabled={!selectedEmployeeId || !serialNumber || !assetName}>
                 Ata
             </button>
 

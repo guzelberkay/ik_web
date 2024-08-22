@@ -23,7 +23,13 @@ const initialState: AssetState = {
 export const fetchUserAssets = createAsyncThunk(
     'asset/fetchUserAssets',
     async (employeeId: number) => {
-        const response = await fetch(`${Rest.assetService}/${employeeId}`);
+        const response = await fetch(`${Rest.assetService}/${employeeId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            }
+        });
         const data = await response.json();
         console.log('Raw Data:', data);
         return data;
@@ -39,6 +45,7 @@ export const verifyAsset = createAsyncThunk(
                 method: 'PUT',
                 body: JSON.stringify({ assetId, verificationStatus, note }),
                 headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     'Content-Type': 'application/json'
                 }
             });
@@ -64,6 +71,7 @@ export const rejectAsset = createAsyncThunk(
                 method: 'PUT',
                 body: JSON.stringify({ note }),
                 headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     'Content-Type': 'application/json'
                 }
             });
