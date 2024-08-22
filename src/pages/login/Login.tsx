@@ -25,6 +25,7 @@ function Login() {
         const token = data.payload.data;
         const decodedToken = decodeToken(token);
         const role = decodedToken.role;
+        console.log(role);
         const userId = decodedToken.userId;
 
         // userId'yi state'e kaydedin
@@ -32,14 +33,26 @@ function Login() {
 
         // userId'yi localStorage'a kaydeder
         localStorage.setItem('userId', userId.toString());
+        localStorage.setItem('role', role);
 
-        if (role === 'ADMIN') {
-          navigate('/adminpanel');
-        } else {
-          navigate('/dashboard');
+        switch (role) {
+          case 'ADMIN':
+            navigate('/adminpanel');
+            break;
+          case 'COMPANY_MANAGER':
+            navigate('/dashboard');
+            break;
+          case 'EMPLOYEE':
+            navigate('/employeemainpage');  
+            break;
+          default:
+            break;
         }
+
+
+
       } else {
-        swal("Hata", data.error.message || "Giriş işlemi başarısız oldu!", "error");
+        swal("Hata", data.payload.message || "Giriş işlemi başarısız oldu!", "error");
       }
     });
   };

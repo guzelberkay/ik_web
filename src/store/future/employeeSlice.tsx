@@ -12,6 +12,7 @@ export interface Employee {
   birthDate: number;
   company: number,
   annualLeave: number;
+  salary: number;
   active: boolean;
 }
 export interface IEmployeeForLeveave { 
@@ -19,6 +20,13 @@ export interface IEmployeeForLeveave {
   employeeName : string;
   employeeSurname : string;
   annualLeave : number;
+}
+
+export interface IEmployee { 
+  employeeId : number;
+  employeeName : string;
+  employeeSurname : string;
+  
 }
 
 

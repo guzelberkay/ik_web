@@ -17,6 +17,7 @@ import ChangeMyPassword from "./pages/changeMyPassword/ChangeMyPassword";
 
 import AdminPanel from "./pages/admin/AdminPanel";
 import PendingUsers from "./pages/admin/PendingUsers";
+import EmployeeMainPage from "./pages/employeeMainPage/EmployeeMainPage";
 
 
 
@@ -41,8 +42,9 @@ function RouterPage() {
   },[]);
 
   const isLogin = useAppSelector(state => state.auth.isAuth);
-  const role = useAppSelector(state => state.auth.user?.role);
-
+  const role = useAppSelector(state => state.auth.user?.role) || localStorage.getItem('role') || '';
+  // alternatifi redux state manager
+  // <Route path="/employeemainpage" element={isLogin && role === 'EMPLOYEE' ? <EmployeeMainPage /> : <Login />} />
 
 
   return (
@@ -56,6 +58,7 @@ function RouterPage() {
 
         
         <Route path="/Dashboard" element={isLogin && role === 'COMPANY_MANAGER' ? <Dashboard /> : <Login />} />
+        <Route path="/employeemainpage" element={<EmployeeMainPage/>} />
 
         <Route path="/AdminPanel" element={isLogin && role === 'ADMIN' ? <AdminPanel /> : <Login />} />
         <Route path="/forgetmypassword" element={<ForgetMyPassword />} />

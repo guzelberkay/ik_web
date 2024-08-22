@@ -10,6 +10,8 @@ function UserUpdateForm() {
     const [lastName, setlastName] = useState('');
     const token = useAppSelector(state => state.auth.token) || localStorage.getItem('token') || '';
     const dispatch: AppDispatch = useDispatch();
+    const isLogin = useAppSelector(state => state.auth.isAuth);
+    const role = useAppSelector(state => state.auth.user?.role);
 
     const updateUser = ()=>{
         
@@ -17,10 +19,15 @@ function UserUpdateForm() {
             token,avatar,firstName,lastName
         })).then(data=>{
           if(data.payload.code===200){
+            
             swal({
                 title: "Kayıt Başarılı",
                 text: data.payload.message,
                 icon: "success"
+              }).then(() => {
+                console.log(localStorage.getItem('token'))
+                
+                console.log(isLogin,role)
               });
         }else{
           swal({

@@ -148,6 +148,7 @@ export const fetchSearchUserList = createAsyncThunk(
         const res = await fetch(Rest.userService + '/edit-profile', {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${payload.token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -240,7 +241,8 @@ export const fetchSearchUserList = createAsyncThunk(
             });
             build.addCase(fetchUpdateProfile.fulfilled, (state, action: PayloadAction<IResponse>) => {
                 if (action.payload.code === 200) {
-                    state.userProfile = action.payload.data;
+                    
+                    //state.userProfile = action.payload.data;
                 }
             });
             build.addCase(fetchForgotPassword.fulfilled, (state, action: PayloadAction<IResponse>) => {
