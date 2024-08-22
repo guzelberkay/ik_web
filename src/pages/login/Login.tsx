@@ -35,11 +35,22 @@ function Login() {
         localStorage.setItem('userId', userId.toString());
         localStorage.setItem('role', role);
 
-        if (role === 'ADMIN') {
-          navigate('/adminpanel');
-        } else {
-          navigate('/dashboard');
+        switch (role) {
+          case 'ADMIN':
+            navigate('/adminpanel');
+            break;
+          case 'COMPANY_MANAGER':
+            navigate('/dashboard');
+            break;
+          case 'EMPLOYEE':
+            navigate('/employeemainpage');  
+            break;
+          default:
+            break;
         }
+
+
+
       } else {
         swal("Hata", data.payload.message || "Giriş işlemi başarısız oldu!", "error");
       }
