@@ -5,6 +5,7 @@ import { fetchEmployeesForLeave, IEmployeeForLeveave } from "../../store/future/
 import swal from "sweetalert";
 import { fetchAssignShift, fetchGetAllShift, IShifts } from "../../store/future/shiftSlice";
 import { dateToEpoch } from "../../util/dateFormatter";
+import { fetchCompanies, ICompany } from "../../store/future/companySlice";
 
 function formatTimestamp(timestamp: string | number): string {
   const time = typeof timestamp === 'string' ? parseInt(timestamp, 10) : timestamp;
@@ -65,8 +66,12 @@ export default function AssignShifts() {
   const [endTime, setEndTime] = useState<string>("");
 
   const shiftList: IShifts[] = useAppSelector((state: RootState) => state.shift.shifts) || [];
-  const companyList = useAppSelector((state) => state.company.companies) || [];
+  const companyList : ICompany[] = useAppSelector((state) => state.company.companies) || [];
   const employeeList: IEmployeeForLeveave[] = useAppSelector((state) => state.employee.employeesForLeave) || [];
+
+  useEffect(() => {
+    dispatch(fetchCompanies());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchGetAllShift());
