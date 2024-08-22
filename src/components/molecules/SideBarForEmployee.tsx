@@ -6,7 +6,7 @@ interface SideBarProps {
   setActiveItem: (item: string) => void;
 }
 
-function SideBar({ activeItem, setActiveItem }: SideBarProps) {
+function SideBarForEmployee({ activeItem, setActiveItem }: SideBarProps) {
 
   const handleItemClick = (item: string) => {
     setActiveItem(item);
@@ -49,61 +49,31 @@ function SideBar({ activeItem, setActiveItem }: SideBarProps) {
         <li>
           <a 
             href="#" 
-            className={`nav-link link-dark ${activeItem === 'dashboard' ? 'active' : ''}`}
-            onClick={() => handleItemClick('dashboard')}
-          >
-            <svg className="bi me-2" width="16" height="16"><use href="#speedometer2"></use></svg>
-            Dashboard
-          </a>
-        </li>
-        <li>
-          <a 
-            href="#" 
-            className={`nav-link link-dark ${activeItem === 'userupdate' ? 'active' : ''}`}
-            onClick={() => handleItemClick('userupdate')}
-          >
-            <svg className="bi me-2" width="16" height="16"><use href="#"></use></svg>
-            Kullanıcı Güncelle
-          </a>
-        </li>
-        <li>
-          <a 
-            href="#" 
-            className={`nav-link link-dark ${activeItem === 'manageexpenses' ? 'active' : ''}`}
-            onClick={() => handleItemClick('manageexpenses')}
+            className={`nav-link link-dark ${activeItem === 'expenseSave' ? 'active' : ''}`}
+            onClick={() => handleItemClick('expenseSave')}
           >
             <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
-            Harcamaları Yönet
+            Harcama kaydet
           </a>
         </li>
         <li>
           <a 
             href="#" 
-            className={`nav-link link-dark ${activeItem === 'leavesave' ? 'active' : ''}`}
-            onClick={() => handleItemClick('leavesave')}
+            className={`nav-link link-dark ${activeItem === 'myexpenses' ? 'active' : ''}`}
+            onClick={() => handleItemClick('myexpenses')}
           >
             <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
-            Çalışanlara İzin Tanımla
+            Harcamalarım
           </a>
         </li>
         <li>
           <a 
             href="#" 
-            className={`nav-link link-dark ${activeItem === 'leavemanage' ? 'active' : ''}`}
-            onClick={() => handleItemClick('leavemanage')}
+            className={`nav-link link-dark ${activeItem === 'leaveRequest' ? 'active' : ''}`}
+            onClick={() => handleItemClick('leaveRequest')}
           >
             <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
-            İzin Talepleri
-          </a>
-        </li>
-        <li>
-          <a 
-            href="#" 
-            className={`nav-link link-dark ${activeItem === 'employeesave' ? 'active' : ''}`}
-            onClick={() => handleItemClick('employeesave')}
-          >
-            <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
-            Çalışan Ekle
+            İzin Talep Et
           </a>
         </li>
         <li>
@@ -122,4 +92,4 @@ function SideBar({ activeItem, setActiveItem }: SideBarProps) {
   )
 }
 
-export default SideBar;
+export default SideBarForEmployee;

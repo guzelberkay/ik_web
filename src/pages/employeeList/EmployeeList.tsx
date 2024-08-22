@@ -74,6 +74,7 @@ const EmployeeList = () => {
     birthDate: 0,
     company: 0,
     annualLeave: 0,
+    salary: 0,
     active: false,
   });
   const [isUpdating, setIsUpdating] = useState(false);
@@ -138,6 +139,7 @@ const EmployeeList = () => {
         birthDate: 0,
         company: 0,
         annualLeave: 0,
+        salary: 0,
         active: false,
       });
       setSelectedCompany(0);
@@ -229,6 +231,14 @@ const EmployeeList = () => {
           type="number"
           name="annualLeave"
           placeholder="Yıllık İzin"
+          value={employeeForm.annualLeave}
+          onChange={handleInputChange}
+        />
+        <label htmlFor="salary">Maaş</label>
+        <input
+          type="number"
+          name="salary"
+          placeholder="Maaş"
           value={employeeForm.annualLeave}
           onChange={handleInputChange}
         />

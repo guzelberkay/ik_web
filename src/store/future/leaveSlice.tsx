@@ -13,6 +13,13 @@ interface IInitialLeave{
     isLoading: boolean
     
 }
+export interface ILeaveRequest{
+    token: string;
+    leaveType: string;
+    startDate: number;
+    endDate: number;
+    description: string;
+}
 
 const initialState: IInitialLeave ={
     isLoading: false
@@ -32,6 +39,20 @@ export const fetchSaveLeave = createAsyncThunk(
         
     }
 )
+export const fetchLeaveRequest = createAsyncThunk(
+    'leave/fetchLeaveRequest',
+    async (leave:ILeaveRequest) => {
+        const response = await fetch(Rest.leaveService + '/leave-request', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(leave)
+        }).then(data => data.json());
+        return response;
+    }
+)
 
 const leaveSlice = createSlice({
     name: 'leave',
@@ -47,6 +68,16 @@ const leaveSlice = createSlice({
             
             })
             .addCase(fetchSaveLeave.rejected, (state) => {
+                state.isLoading = false
+            })
+            .addCase(fetchLeaveRequest.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(fetchLeaveRequest.fulfilled, (state, action: PayloadAction<IResponse>) => {
+                state.isLoading = false
+            
+            })
+            .addCase(fetchLeaveRequest.rejected, (state) => {
                 state.isLoading = false
             })
     }
