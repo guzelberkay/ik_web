@@ -69,6 +69,16 @@ function SideBarForEmployee({ activeItem, setActiveItem }: SideBarProps) {
         <li>
           <a 
             href="#" 
+            className={`nav-link link-dark ${activeItem === 'myshifts' ? 'active' : ''}`}
+            onClick={() => handleItemClick('myshifts')}
+          >
+            <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
+            Vardiyalarım
+          </a>
+        </li>
+        <li>
+          <a 
+            href="#" 
             className={`nav-link link-dark ${activeItem === 'leaveRequest' ? 'active' : ''}`}
             onClick={() => handleItemClick('leaveRequest')}
           >

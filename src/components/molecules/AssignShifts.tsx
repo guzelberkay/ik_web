@@ -123,7 +123,7 @@ export default function AssignShifts() {
       <h1>Vardiya Tanımla</h1>
       <div className="row p-5">
         <div className="m-4">
-          <select
+          <select 
             className="form-select"
             id="company"
             value={selectedCompany}
@@ -153,6 +153,7 @@ export default function AssignShifts() {
           </select>
         </div>
         <div className="m-4">
+          <h5>Vardiya Başlangıç Günü</h5>
           <input
             className="form-select"
             type="date"
@@ -162,6 +163,7 @@ export default function AssignShifts() {
           />
         </div>
         <div className="m-4">
+        <h5>Vardiya Bitiş Günü</h5>
           <input
             className="form-select"
             type="date"
@@ -171,6 +173,7 @@ export default function AssignShifts() {
           />
         </div>
         <div className="m-4">
+        <h5>Vardiya Başlangıç Saati</h5>
           <input
             className="form-select"
             type="time"
@@ -180,6 +183,7 @@ export default function AssignShifts() {
           />
         </div>
         <div className="m-4">
+        <h5>Vardiya Bitiş Saati</h5>
           <input
             className="form-select"
             type="time"

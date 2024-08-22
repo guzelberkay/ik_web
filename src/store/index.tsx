@@ -14,10 +14,8 @@ const store = configureStore({
     employee: employeeSlice,
     company: companySlice,
     leave: leaveSlice,
-
-    shift: shiftSlice
-
-    expense: expenseSlice
+    shift: shiftSlice,
+    expense: expenseSlice,
 
   }
 });

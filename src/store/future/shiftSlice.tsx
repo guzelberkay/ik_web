@@ -7,6 +7,12 @@ export interface IEmployee {
   name: string;
   surname: string;
 }
+export interface IMyShifts {
+  startDate: number;
+  endDate: number;
+  startTime: number;
+  endTime: number;
+}
 
 export interface IShifts {
   startDate: string;
@@ -26,13 +32,16 @@ export interface IShift {
 
 interface IInitialShift {
   isLoading: boolean;
-  shifts: IShifts[]; // Updated to use IShifts which matches the backend response
+  shifts: IShifts[]; 
+  myShifts: IMyShifts[];
 }
 
 const initialState: IInitialShift = {
   isLoading: false,
   shifts: [],
+  myShifts: [],
 };
+
 
 export const fetchAssignShift = createAsyncThunk(
   'shift/fetchAssignShift',
@@ -73,6 +82,31 @@ export const fetchGetAllShift = createAsyncThunk(
     }
   }
 );
+export const fetchMyShifts = createAsyncThunk(
+  'shift/fetchMyShifts',
+  async () => {
+    try {
+      const response = await fetch(`${Rest.shiftService}/getMyShifts`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch user shifts');
+      }
+
+      const data = await response.json();
+      console.log('data'+data);
+      return data.data;
+    } catch (error) {
+      console.error('Error fetching user shifts:', error);
+      return [];
+    }
+  }
+);
 
 const shiftSlice = createSlice({
   name: 'shift',
@@ -91,6 +125,16 @@ const shiftSlice = createSlice({
       })
       .addCase(fetchGetAllShift.fulfilled, (state, action: PayloadAction<IShifts[]>) => {
         state.shifts = action.payload;
+      })
+      .addCase(fetchMyShifts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchMyShifts.fulfilled, (state, action: PayloadAction<IMyShifts[]>) => {
+        state.isLoading = false;
+        state.myShifts = action.payload;
+      })
+      .addCase(fetchMyShifts.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });
