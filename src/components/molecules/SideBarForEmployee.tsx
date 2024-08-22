@@ -79,6 +79,16 @@ function SideBarForEmployee({ activeItem, setActiveItem }: SideBarProps) {
         <li>
           <a 
             href="#" 
+            className={`nav-link link-dark ${activeItem === 'manageAssets' ? 'active' : ''}`}
+            onClick={() => handleItemClick('manageAssets')}
+          >
+            <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
+            Zimmetleri Yönet
+          </a>
+        </li>
+        <li>
+          <a 
+            href="#" 
             className={`nav-link link-dark`}
             onClick={() => logout()}
           >

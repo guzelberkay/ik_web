@@ -3,6 +3,7 @@ import SidebarForEmployee from '../../components/molecules/SideBarForEmployee'
 import ExpenseSave from '../../components/molecules/ExpenseSave';
 import MyExpenses from '../../components/molecules/MyExpenses';
 import LeaveRequest from '../../components/molecules/LeaveRequest';
+import AssetManagement from '../assetManagement/AssetManagement';
 
 function EmployeeMainPage() {
     const [activeItem, setActiveItem] = useState<string>('home');
@@ -13,6 +14,8 @@ function EmployeeMainPage() {
         {activeItem === 'expenseSave' && <ExpenseSave />}
         {activeItem === 'myexpenses' && <MyExpenses />}
         {activeItem === 'leaveRequest' && <LeaveRequest />}
+        {activeItem === 'manageAssets' && <AssetManagement />}
+
     </div>
     </>
   )

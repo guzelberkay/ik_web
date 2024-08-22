@@ -126,6 +126,12 @@ function SideBar({ activeItem, setActiveItem }: SideBarProps) {
             <svg className="bi me-2" width="16" height="16"><use href="#grid"></use></svg>
             Zimmet Ekle
 
+          </a>
+        </li>
+        <li>
+          <a 
+            href="#"
+
             className={`nav-link link-dark ${activeItem === 'savecomment' ? 'active' : ''}`}
             onClick={() => handleItemClick('savecomment')}
           >
