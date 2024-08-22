@@ -6,15 +6,6 @@ import { ICompany, fetchCompanies } from '../../store/future/companySlice';
 import {dateToEpoch} from '../../util/dateFormatter';
 import './EmployeeList.css';
 
-/* function convertDateToEpoch(date: Date, inMilliseconds: boolean = false): number {
-  if (inMilliseconds) {
-      return date.getTime();
-  } else {
-      return Math.floor(date.getTime() / 1000);
-  }
-} */
-
-
 function formatTimestamp(timestamp: number): string {
   console.log('timestamp: ', timestamp);
   // Zaman damgasını milisaniyeye çevirin
@@ -166,84 +157,102 @@ const EmployeeList = () => {
   };
 
 
-  return (
+return (
     <div className="employee-list">
-      <h2>Çalışan Listesi</h2>
+      <h1>Çalışan Listesi</h1>
 
       <form onSubmit={handleSubmit} className="employee-form">
+        <label htmlFor="userid">Kullanıcı ID</label>
         <input
           type="text"
-          name="userid"
+          name="user"
+          id="userid"
           placeholder="Kullanıcı ID"
           value={employeeForm.user}
           onChange={handleInputChange}
           required
           className="readonly-input"
         />
+        <label htmlFor="firstName">Ad</label>
         <input
           type="text"
           name="firstName"
+          id="firstName"
           placeholder="Ad"
           value={employeeForm.firstName}
           onChange={handleInputChange}
           required
         />
+        <label htmlFor="lastName">Soyad</label>
         <input
           type="text"
           name="lastName"
+          id="lastName"
           placeholder="Soyad"
           value={employeeForm.lastName}
           onChange={handleInputChange}
           required
         />
+        <label htmlFor="email">Email</label>
         <input
           type="email"
           name="email"
+          id="email"
           placeholder="Email"
           value={employeeForm.email}
           onChange={handleInputChange}
           required
         />
+        <label htmlFor="password">Şifre</label>
         <input
           type="password"
           name="password"
+          id="password"
           placeholder="Şifre"
           value={employeeForm.password}
           onChange={handleInputChange}
           required
         />
+        <label htmlFor="hireDate">İşe Başlama Tarihi</label>
         <input
-          
           type="date"
           name="hireDate"
+          id="hireDate"
           placeholder="İşe Başlama Tarihi"
           value={hireDateString}
-          onChange={(e)=>setHireDateString(e.target.value)}
+          onChange={(e) => setHireDateString(e.target.value)}
         />
+        <label htmlFor="birthDate">Doğum Tarihi</label>
         <input
           type="date"
           name="birthDate"
+          id="birthDate"
           placeholder="Doğum Tarihi"
           value={birthDateString}
-          onChange={(e)=>setBirthDateString(e.target.value)}
+          onChange={(e) => setBirthDateString(e.target.value)}
         />
+        <label htmlFor="annualLeave">Yıllık İzin</label>
         <input
           type="number"
           name="annualLeave"
+          id="annualLeave"
           placeholder="Yıllık İzin"
           value={employeeForm.annualLeave}
           onChange={handleInputChange}
         />
+
         <label htmlFor="salary">Maaş</label>
         <input
           type="number"
           name="salary"
           placeholder="Maaş"
-          value={employeeForm.annualLeave}
+          value={employeeForm.salary}
           onChange={handleInputChange}
         />
+
         <select
           name="active"
+          id="active"
           value={employeeForm.active ? 'true' : 'false'}
           onChange={handleInputChange}
         >
@@ -251,8 +260,8 @@ const EmployeeList = () => {
           <option value="false">Pasif</option>
         </select>
 
+        <label htmlFor="company">Şirket</label>
         <select
-          className='form-select'
           id="company"
           value={selectedCompany}
           onChange={handleCompanyChange}

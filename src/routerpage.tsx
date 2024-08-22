@@ -14,6 +14,8 @@ import { clearToken, setToken } from "./store/future/authSlice";
 import { jwtDecode } from "jwt-decode";
 import ForgetMyPassword from "./pages/forgetMyPassword/ForgetMyPassword";
 import ChangeMyPassword from "./pages/changeMyPassword/ChangeMyPassword";
+import AssetManagement from "./pages/assetManagement/AssetManagement"
+import AssignAsset from "./pages/assetManagement/AssignAsset";
 
 import AdminPanel from "./pages/admin/AdminPanel";
 import PendingUsers from "./pages/admin/PendingUsers";
@@ -55,7 +57,7 @@ function RouterPage() {
         <Route path="/resources" element={<Resources/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
+        <Route path="/asset" element={isLogin && role === 'EMPLOYEE' ? <AssetManagement /> : <Login />} />
         
         <Route path="/Dashboard" element={isLogin && role === 'COMPANY_MANAGER' ? <Dashboard /> : <Login />} />
         <Route path="/employeemainpage" element={<EmployeeMainPage/>} />

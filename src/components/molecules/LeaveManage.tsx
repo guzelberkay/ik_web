@@ -51,6 +51,7 @@ function LeaveManage() {
                 className='form-select'
                     id="company"
                     value={selectedCompany}
+                    style={{minWidth: '200px'}}
                     onChange={(e) => setSelectedCompany(Number(e.target.value))}
                 >
                     <option value="">Şirket Seç</option>

@@ -112,7 +112,7 @@ export default function LeaveSave() {
                 />
             </div>
             <div className='m-4'>
-                
+                <label htmlFor="startDate">Başlangıç tarihi</label>
                 <input
                     className='form-select'
                     type="date"
@@ -122,7 +122,7 @@ export default function LeaveSave() {
                 />
             </div>
             <div className='m-4'>
-                
+                <label htmlFor="endDate">Bitiş tarihi</label>
                 <input
                     className='form-select'
                     type="date"
