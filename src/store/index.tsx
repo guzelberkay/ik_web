@@ -5,13 +5,15 @@ import {
   leaveSlice
 } from "./future";
 import { useSelector} from 'react-redux';
+import shiftSlice from "./future/shiftSlice";
 const store = configureStore({
   reducer:{
     auth: authSlice,
     user: userSlice,
     employee: employeeSlice,
     company: companySlice,
-    leave: leaveSlice
+    leave: leaveSlice,
+    shift: shiftSlice
   }
 });
 export type AppDispatch = typeof store.dispatch;
