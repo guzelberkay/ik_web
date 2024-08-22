@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch, useAppSelector } from '../../store';
-import { assignAsset } from '../../store/future/assetAssignSlice';
+import { assignAsset, fetchAssignedAssetsByCompanyId } from '../../store/future/assetAssignSlice';
 import { fetchCompanies } from '../../store/future/companySlice';
 import './AssignAsset.css';
 import { fetchEmployeesForLeave, IEmployeeForLeveave } from '../../store/future/employeeSlice';
@@ -9,6 +9,7 @@ import { fetchEmployeesForLeave, IEmployeeForLeveave } from '../../store/future/
 const AssignAsset: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const { companies } = useSelector((state: RootState) => state.company);
+    const { assignedAssets } = useSelector((state: RootState) => state.assignasset);
     const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(null);
     const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | null>(null);
     const [serialNumber, setSerialNumber] = useState<string>('');
@@ -22,6 +23,7 @@ const AssignAsset: React.FC = () => {
     useEffect(() => {
         if (selectedCompanyId) {
             dispatch(fetchEmployeesForLeave(selectedCompanyId));
+            dispatch(fetchAssignedAssetsByCompanyId(selectedCompanyId));
         }
     }, [dispatch, selectedCompanyId]);
 
@@ -37,13 +39,28 @@ const AssignAsset: React.FC = () => {
     };
 
     const handleAssignAsset = () => {
-        if (selectedEmployeeId && serialNumber && assetName) { 
-            dispatch(assignAsset({ userId: selectedEmployeeId, serialNumber, assetName }));
-            setSelectedEmployeeId(null);
-            setSerialNumber('');
-            setAssetName('');
+        if (selectedEmployeeId && serialNumber && assetName ) {
+            dispatch(assignAsset({
+                userId: selectedEmployeeId,
+                serialNumber,
+                assetName,
+                verificationStatus: 'Beklemede',
+            }))
+            .then(() => {
+                if (selectedCompanyId) {
+                    dispatch(fetchAssignedAssetsByCompanyId(selectedCompanyId));
+                }
+                setSelectedEmployeeId(null);
+                setSerialNumber('');
+                setAssetName('');
+            })
+            .catch(error => {
+                console.error('Failed to assign asset:', error);
+            });
         }
     };
+    
+    
 
     return (
         <div className="assign-asset">
@@ -98,6 +115,44 @@ const AssignAsset: React.FC = () => {
             <button onClick={handleAssignAsset} disabled={!selectedEmployeeId || !serialNumber || !assetName}>
                 Ata
             </button>
+
+
+            <div className="assigned-assets">
+                <h1>Atanmış Zimmetler</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kullanıcı ID</th>
+                            <th>İsim</th>
+                            <th>Soyisim</th>
+                            <th>Zimmet Adı</th>
+                            <th>Seri Numarası</th>
+                            <th>Durum</th>
+                            <th>Not</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {assignedAssets.length > 0 ? (
+                            assignedAssets.map((assignasset) => (
+                                <tr key={assignasset.id}>
+                                    <td>{assignasset.user.id}</td>
+                                    <td>{assignasset.user.firstName}</td>
+                                    <td>{assignasset.user.lastName}</td>
+                                    <td>{assignasset.assetName}</td>
+                                    <td>{assignasset.serialNumber}</td>
+                                    <td>{assignasset.verificationStatus}</td>
+                                    <td>{assignasset.note ? JSON.parse(assignasset.note).note : 'N/A'}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={7}>Atanmış zimmet bulunamadı.</td>
+                            </tr>
+                        )}
+                    </tbody>
+
+                </table>
+            </div>
         </div>
     );
 };
