@@ -5,6 +5,7 @@ import LeaveSave from '../../components/molecules/LeaveSave';
 
 import EmployeeList from '../employeeList/EmployeeList';
 import LeaveManage from '../../components/molecules/LeaveManage';
+import SaveComment from '../../components/molecules/SaveComment';
 
 import AssignShifts from '../../components/molecules/AssignShifts';
 
@@ -24,7 +25,11 @@ function Dashboard() {
         {activeItem === 'shift' && <AssignShifts />}
         {activeItem === 'employeesave' && <EmployeeList />}
         {activeItem === 'leavemanage' && <LeaveManage />}
+
+        {activeItem === 'savecomment' && <SaveComment />}
+
         {activeItem === 'manageexpenses' && <ManageExpenses />}
+
       </div>
     </div>
   );

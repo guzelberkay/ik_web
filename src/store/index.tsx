@@ -3,7 +3,11 @@ import {
   authSlice, userSlice, employeeSlice,
   companySlice,
   leaveSlice,
+
+  commentSlice
+
   expenseSlice
+
 } from "./future";
 import { useSelector} from 'react-redux';
 import shiftSlice from "./future/shiftSlice";
@@ -15,9 +19,13 @@ const store = configureStore({
     company: companySlice,
     leave: leaveSlice,
 
+    comment: commentSlice
+
+
     shift: shiftSlice
 
     expense: expenseSlice
+
 
   }
 });
