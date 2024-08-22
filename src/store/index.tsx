@@ -3,7 +3,7 @@ import {
   authSlice, userSlice, employeeSlice,
   companySlice,
   leaveSlice,
-  assetSlice,
+  assetManagementSlice,
   assetAssignSlice,
 } from "./future";
 import { useSelector} from 'react-redux';
@@ -14,7 +14,7 @@ const store = configureStore({
     employee: employeeSlice,
     company: companySlice,
     leave: leaveSlice,
-    asset: assetSlice,
+    assetManagement: assetManagementSlice,
     assignasset: assetAssignSlice,
   }
 });

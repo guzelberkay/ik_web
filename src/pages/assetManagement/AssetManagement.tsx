@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../store';
-import { fetchUserAssets, rejectAsset, verifyAsset } from '../../store/future/assetSlice';
+import { fetchUserAssets, rejectAsset, verifyAsset } from '../../store/future/assetManagementSlice';
 import './AssetManagement.css';
 
 const AssetManagement: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
-    const { assets, status } = useSelector((state: RootState) => state.asset);
+    const { assets } = useSelector((state: RootState) => state.assetManagement);
     const [selectedAssetId, setSelectedAssetId] = useState<string>('');
     const [note, setNote] = useState<string>('');
     const employeeIdString = localStorage.getItem('userId');
@@ -18,10 +18,6 @@ const AssetManagement: React.FC = () => {
         }
     }, [dispatch, employeeId]);    
 
-    /*   useEffect(() => {
-          console.log('Assets:', assets); // Debugging line
-      }, [assets]);
-   */
     const handleVerification = (assetId: string, isVerified: boolean) => {
         console.log('Handle Verification - Asset ID:', assetId, 'Is Verified:', isVerified); // Debugging line
         dispatch(verifyAsset({ assetId, isVerified, note }));
@@ -34,9 +30,6 @@ const AssetManagement: React.FC = () => {
         setSelectedAssetId('');
         setNote('');
     };
-
-    /*     if (status === 'loading') return <div>Loading...</div>;
-        if (status === 'failed') return <div>Error loading assets</div>; */
 
     return (
         <div className="asset-verification">
@@ -52,29 +45,29 @@ const AssetManagement: React.FC = () => {
                 </thead>
                 <tbody>
                     {assets.length > 0 ? (
-                        assets.map((asset) => (
-                            <tr key={asset.id}>
-                                <td>{asset.name}</td>
-                                <td>{asset.serialNumber}</td>
-                                <td>{asset.verificationStatus}</td>
+                        assets.map((assetManagement) => (
+                            <tr key={assetManagement.id}>
+                                <td>{assetManagement.name}</td>
+                                <td>{assetManagement.serialNumber}</td>
+                                <td>{assetManagement.verificationStatus}</td>
                                 <td>
-                                    {asset.verificationStatus === "Beklemede" ? (
+                                    {assetManagement.verificationStatus === "Beklemede" ? (
                                         <>
-                                            <button onClick={() => handleVerification(asset.id, true)}>Evet, Onayla</button>
-                                            <button onClick={() => setSelectedAssetId(asset.id)}>Hayır, Not Ekle</button>
-                                            {selectedAssetId === asset.id && (
+                                            <button onClick={() => handleVerification(assetManagement.id, true)}>Evet, Onayla</button>
+                                            <button onClick={() => setSelectedAssetId(assetManagement.id)}>Hayır, Not Ekle</button>
+                                            {selectedAssetId === assetManagement.id && (
                                                 <>
                                                     <textarea
                                                         placeholder="Durumunuza dair not ekleyin..."
                                                         value={note}
                                                         onChange={(e) => setNote(e.target.value)}
                                                     />
-                                                    <button onClick={() => handleRejection(asset.id)}>Reddet</button>
+                                                    <button onClick={() => handleRejection(assetManagement.id)}>Reddet</button>
                                                 </>
                                             )}
                                         </>
                                     ) : (
-                                        <span>{asset.verificationStatus === 'Onaylandı' ? 'Onaylanmış' : 'Reddedildi'}</span>
+                                        <span>{assetManagement.verificationStatus === 'Onaylandı' ? 'Onaylanmış' : 'Reddedildi'}</span>
                                     )}
                                 </td>
                             </tr>

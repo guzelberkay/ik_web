@@ -55,10 +55,10 @@ export const fetchEmployeesByCompanyId = createAsyncThunk(
 
 export const assignAsset = createAsyncThunk(
     'assetAssign/assignAsset',
-    async ({ userId, serialNumber }: { userId: number, serialNumber: string }) => {
+    async ({ userId, serialNumber, assetName }: { userId: number, serialNumber: string, assetName: string }) => {
         const response = await fetch(Rest.assetService + '/assignAsset', {
             method: 'POST',
-            body: JSON.stringify({ userId, serialNumber }),
+            body: JSON.stringify({ userId, serialNumber, assetName }),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -70,6 +70,7 @@ export const assignAsset = createAsyncThunk(
         }
     }
 );
+
 
 const assetAssignSlice = createSlice({
     name: 'assetAssign',

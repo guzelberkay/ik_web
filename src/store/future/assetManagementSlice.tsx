@@ -30,56 +30,54 @@ export const fetchUserAssets = createAsyncThunk(
     }
 );
 
-/* export const fetchUserAssets = createAsyncThunk(
-    'asset/fetchUserAssets',
-    async () => {
-        const staticData = {
-            code: 200,
-            message: "Kullanıcının zimmetli eşyaları getirildi",
-            data: [
-                {
-                    id: 1,
-                    userId: 1,
-                    serialNumber: "123",
-                    assignedDate: 0,
-                    verificationStatus: null,
-                    note: null,
-                    returned: false
-                }
-            ]
-        };
-        console.log('Static Data:', staticData);
-        return staticData;
-    }
-); */
-
 export const verifyAsset = createAsyncThunk(
     'asset/verifyAsset',
-    async ({ assetId, isVerified, note }: { assetId: string, isVerified: boolean, note?: string }) => {
-        const verificationStatus = isVerified ? 'Onaylandı' : 'Reddedildi';
-        await fetch(Rest.assetService + `/${assetId}/verify`, {
-            method: 'PUT',
-            body: JSON.stringify({ assetId, verificationStatus, note }),
-            headers: {
-                'Content-Type': 'application/json'
+    async ({ assetId, isVerified, note }: { assetId: string, isVerified: boolean, note?: string }, { rejectWithValue }) => {
+        try {
+            const verificationStatus = isVerified ? 'Onaylandı' : 'Reddedildi';
+            const response = await fetch(Rest.assetService + `/${assetId}/verify`, {
+                method: 'PUT',
+                body: JSON.stringify({ assetId, verificationStatus, note }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Zimmet doğrulama sırasında bir hata oluştu.');
             }
-        });
-        return { assetId, verificationStatus, note };
+
+            swal('Başarılı!', 'Zimmet eşyası başarıyla güncellendi.', 'success');
+            return { assetId, verificationStatus, note };
+        } catch (error: any) {
+            swal('Hata!', error.message, 'error');
+            return rejectWithValue(error.message);
+        }
     }
 );
 
-
 export const rejectAsset = createAsyncThunk(
     'asset/rejectAsset',
-    async ({ assetId, note }: { assetId: string, note: string }) => {
-        await fetch(Rest.assetService + `/${assetId}/reject`, {
-            method: 'PUT',
-            body: JSON.stringify({ note }),
-            headers: {
-                'Content-Type': 'application/json'
+    async ({ assetId, note }: { assetId: string, note: string }, { rejectWithValue }) => {
+        try {
+            const response = await fetch(Rest.assetService + `/${assetId}/reject`, {
+                method: 'PUT',
+                body: JSON.stringify({ note }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Zimmet reddi sırasında bir hata oluştu.');
             }
-        });
-        return { assetId, note };
+
+            swal('Başarılı!', 'Zimmet eşyası başarıyla reddedildi.', 'success');
+            return { assetId, note };
+        } catch (error: any) {
+            swal('Hata!', error.message, 'error');
+            return rejectWithValue(error.message);
+        }
     }
 );
 
@@ -96,7 +94,7 @@ const assetSlice = createSlice({
                 console.log('Fetched Data:', action.payload);
                 state.assets = action.payload.data.map((asset: any) => ({
                     id: asset.id,
-                    name: `Asset ${asset.id}`,
+                    name: asset.assetName,
                     serialNumber: asset.serialNumber,
                     verificationStatus: asset.verificationStatus || 'Beklemede',
                     note: asset.note || '',
@@ -111,7 +109,7 @@ const assetSlice = createSlice({
             .addCase(verifyAsset.fulfilled, (state, action) => {
                 const asset = state.assets.find(asset => asset.id === action.payload.assetId);
                 if (asset) {
-                    asset.verificationStatus = action.payload.verificationStatus === 'Onaylandı' ? 'Onaylandı' : 'Not Eklendi';
+                    asset.verificationStatus = action.payload.verificationStatus;
                     asset.note = action.payload.note || '';
                 }                
             })

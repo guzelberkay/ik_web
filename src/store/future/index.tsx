@@ -3,7 +3,7 @@ import userSlice from "./userSlice";
 import employeeSlice from "./employeeSlice";
 import companySlice from "./companySlice";
 import leaveSlice from "./leaveSlice";
-import assetSlice from "./assetSlice";
+import assetManagementSlice from "./assetManagementSlice";
 import assetAssignSlice from "./assetAssignSlice";
 
 export{
@@ -12,6 +12,6 @@ export{
     employeeSlice,
     companySlice,
     leaveSlice,
-    assetSlice,
+    assetManagementSlice,
     assetAssignSlice,
 }

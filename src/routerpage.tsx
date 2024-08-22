@@ -55,7 +55,7 @@ function RouterPage() {
         <Route path="/resources" element={<Resources/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/asset" element={isLogin && role === 'COMPANY_MANAGER' ? <AssetManagement /> : <Login />} />
+        <Route path="/asset" element={isLogin && role === 'EMPLOYEE' ? <AssetManagement /> : <Login />} />
         
         <Route path="/Dashboard" element={isLogin && role === 'COMPANY_MANAGER' ? <Dashboard /> : <Login />} />
 

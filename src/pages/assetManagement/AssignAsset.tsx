@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch, useAppSelector } from '../../store';
-import { fetchEmployeesByCompanyId, assignAsset } from '../../store/future/assetAssignSlice';
-import { fetchCompanies, ICompany } from '../../store/future/companySlice';
+import { assignAsset } from '../../store/future/assetAssignSlice';
+import { fetchCompanies } from '../../store/future/companySlice';
 import './AssignAsset.css';
 import { fetchEmployeesForLeave, IEmployeeForLeveave } from '../../store/future/employeeSlice';
 
 const AssignAsset: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
-/*     const { employees } = useSelector((state: RootState) => state.assignasset); */
     const { companies } = useSelector((state: RootState) => state.company);
     const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(null);
     const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | null>(null);
     const [serialNumber, setSerialNumber] = useState<string>('');
-    const employeeList: IEmployeeForLeveave [] = useAppSelector(state => state.employee.employeesForLeave) || [];
+    const [assetName, setAssetName] = useState<string>('');
+    const employeeList: IEmployeeForLeveave[] = useAppSelector(state => state.employee.employeesForLeave) || [];
 
     useEffect(() => {
         dispatch(fetchCompanies());
@@ -24,10 +24,6 @@ const AssignAsset: React.FC = () => {
             dispatch(fetchEmployeesForLeave(selectedCompanyId));
         }
     }, [dispatch, selectedCompanyId]);
-    
-    useEffect(() => {
-        console.log('Fetched employees:', employeeList);
-    }, [employeeList]);    
 
     const handleCompanySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const companyId = parseInt(e.target.value);
@@ -41,10 +37,11 @@ const AssignAsset: React.FC = () => {
     };
 
     const handleAssignAsset = () => {
-        if (selectedEmployeeId && serialNumber) {
-            dispatch(assignAsset({ userId: selectedEmployeeId, serialNumber }));
+        if (selectedEmployeeId && serialNumber && assetName) { 
+            dispatch(assignAsset({ userId: selectedEmployeeId, serialNumber, assetName }));
             setSelectedEmployeeId(null);
             setSerialNumber('');
+            setAssetName('');
         }
     };
 
@@ -75,9 +72,18 @@ const AssignAsset: React.FC = () => {
                     disabled={!selectedCompanyId}
                 >
                     <option value="">Çalışan Seç</option>
-                    {employeeList.length > 0 && employeeList.map((employeeList, index) => <option key={index} value={employeeList.user}>{employeeList.employeeName} {employeeList.employeeSurname}</option>)}
+                    {employeeList.length > 0 && employeeList.map((employee, index) => <option key={index} value={employee.user}>{employee.employeeName} {employee.employeeSurname}</option>)}
                 </select>
-
+            </div>
+            <div className="form-group">
+                <label htmlFor="asset-name">Zimmet Adı:</label>
+                <input
+                    type="text"
+                    id="asset-name"
+                    placeholder="Zimmet Adı"
+                    value={assetName}
+                    onChange={(e) => setAssetName(e.target.value)}
+                />
             </div>
             <div className="form-group">
                 <label htmlFor="serial-number">Seri Numarası:</label>
@@ -89,7 +95,7 @@ const AssignAsset: React.FC = () => {
                     onChange={(e) => setSerialNumber(e.target.value)}
                 />
             </div>
-            <button onClick={handleAssignAsset} disabled={!selectedEmployeeId || !serialNumber}>
+            <button onClick={handleAssignAsset} disabled={!selectedEmployeeId || !serialNumber || !assetName}>
                 Ata
             </button>
         </div>
