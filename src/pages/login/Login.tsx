@@ -35,6 +35,7 @@ function Login() {
         localStorage.setItem('userId', userId.toString());
         localStorage.setItem('role', role);
 
+
         switch (role) {
           case 'ADMIN':
             navigate('/adminpanel');
@@ -47,6 +48,7 @@ function Login() {
             break;
           default:
             break;
+
         }
 
 

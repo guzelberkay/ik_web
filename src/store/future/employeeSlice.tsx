@@ -20,6 +20,7 @@ export interface IEmployeeForLeveave {
   employeeName : string;
   employeeSurname : string;
   annualLeave : number;
+  user: number;
 }
 
 export interface IEmployee { 
@@ -166,27 +167,38 @@ export const deleteEmployee = createAsyncThunk(
 export const fetchEmployeesForLeave = createAsyncThunk(
   'employee/fetchEmployeesForLeave',
   async (payload: number, { rejectWithValue }) => {
-    
+    try {
+      const token = localStorage.getItem('token');
+      
+      // Token'ı konsola yazdır
+      console.log('Token:', token);
+
       const response = await fetch(
         `${Rest.employeeService}/get-employee-by-company-id/${payload}`, 
         {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           }
         }
       );
 
       if (!response.ok) {
+        if (response.status === 403) {
+          throw new Error('Yetkisiz erişim: Bu kaynağa erişim izniniz yok.');
+        }
         throw new Error('Failed to fetch employees');
       }
 
       const result = await response.json();
       return result;
-     
+    } catch (error: any) {
+      return rejectWithValue({ message: error.message });
+    }
   }
 );
+
 
 const employeeSlice = createSlice({
   name: 'employee',
