@@ -22,6 +22,13 @@ export interface IEmployeeForLeveave {
   annualLeave : number;
 }
 
+export interface IEmployee { 
+  employeeId : number;
+  employeeName : string;
+  employeeSurname : string;
+  
+}
+
 
 interface EmployeeState {
   employees: Employee[];

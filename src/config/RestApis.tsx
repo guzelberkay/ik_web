@@ -8,7 +8,11 @@ const apis = {
     employeeService: server+'/employee',
     companyService: server+'/company',
     leaveService: server+'/leave',
+
+    shiftService: server+'/shift'
+
     expenseService: server+'/expense'
+
 }
 
 export default apis;

@@ -134,7 +134,6 @@ export default function LeaveSave() {
             <div className='m-4 text-center'>
             <button className='btn btn-success' onClick={handleCreateLeave}>İzin Oluştur</button>
             </div>
-            
            </div>
         </div>
     );
