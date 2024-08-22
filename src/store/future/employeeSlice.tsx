@@ -119,6 +119,7 @@ export const updateEmployee = createAsyncThunk(
       const response = await fetch(Rest.employeeService + `/update/${employee.user}`, {
         method: 'PUT',
         headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(employee),
@@ -159,6 +160,10 @@ export const deleteEmployee = createAsyncThunk(
   async (userId: number) => {
     await fetch(Rest.employeeService + `/delete/${userId}`, {
       method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
     });
     return userId;
   }
