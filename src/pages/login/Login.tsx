@@ -35,6 +35,8 @@ function Login() {
 
         if (role === 'ADMIN') {
           navigate('/adminpanel');
+        } else if (role === 'EMPLOYEE') {
+          navigate('/asset');
         } else {
           navigate('/dashboard');
         }

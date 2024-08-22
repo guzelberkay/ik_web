@@ -4,6 +4,7 @@ import UserUpdateForm from '../../components/molecules/UserUpdateForm';
 import LeaveSave from '../../components/molecules/LeaveSave';
 import EmployeeList from '../employeeList/EmployeeList';
 import LeaveManage from '../../components/molecules/LeaveManage';
+import AssignAsset from '../assetManagement/AssignAsset';
 
 function Dashboard() {
   const [activeItem, setActiveItem] = useState<string>('home');
@@ -16,6 +17,7 @@ function Dashboard() {
         {activeItem === 'leavesave' && <LeaveSave />}
         {activeItem === 'employeesave' && <EmployeeList />}
         {activeItem === 'leavemanage' && <LeaveManage />}
+        {activeItem === 'assignasset' && <AssignAsset />}
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ const apis = {
     employeeService: server+'/employee',
     companyService: server+'/company',
     leaveService: server+'/leave',
+    assetService: server+'/assets',
 }
 
 export default apis;

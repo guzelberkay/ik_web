@@ -2,7 +2,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import { 
   authSlice, userSlice, employeeSlice,
   companySlice,
-  leaveSlice
+  leaveSlice,
+  assetSlice,
+  assetAssignSlice,
 } from "./future";
 import { useSelector} from 'react-redux';
 const store = configureStore({
@@ -11,7 +13,9 @@ const store = configureStore({
     user: userSlice,
     employee: employeeSlice,
     company: companySlice,
-    leave: leaveSlice
+    leave: leaveSlice,
+    asset: assetSlice,
+    assignasset: assetAssignSlice,
   }
 });
 export type AppDispatch = typeof store.dispatch;
