@@ -5,7 +5,7 @@ import companySlice from "./companySlice";
 import leaveSlice from "./leaveSlice";
 
 import commentSlice from "./commentSlice";
-
+import shiftSlice from "./shiftSlice";
 import expenseSlice from "./expenseSlice";
 
 export{
@@ -14,9 +14,7 @@ export{
     employeeSlice,
     companySlice,
     leaveSlice,
-
-    commentSlice
-
-    expenseSlice
-
+    commentSlice,
+    expenseSlice,
+    shiftSlice
 }

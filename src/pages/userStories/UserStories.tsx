@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import NavBar from '../../components/molecules/NavBar';
-import Storycard from '../../components/molecules/Storycard';
+
 import { AppDispatch, RootState } from '../../store';
 import { fetchGetCommentList, IComments } from '../../store/future/commentSlice';
 

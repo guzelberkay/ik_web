@@ -239,7 +239,7 @@ const EmployeeList = () => {
           type="number"
           name="salary"
           placeholder="Maaş"
-          value={employeeForm.annualLeave}
+          value={employeeForm.salary}
           onChange={handleInputChange}
         />
         <select

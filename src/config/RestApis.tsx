@@ -9,10 +9,10 @@ const apis = {
     companyService: server+'/company',
     leaveService: server+'/leave',
 
-    commentService: server+'/comment'
+    commentService: server+'/comment',
 
 
-    shiftService: server+'/shift'
+    shiftService: server+'/shift',
 
     expenseService: server+'/expense'
 
